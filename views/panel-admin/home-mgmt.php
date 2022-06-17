@@ -4,7 +4,7 @@
     <?php while($h = $homes->fetch()): ?>
         
         <div class="lodging">
-            <div class="thumb"></div>
+            <img class="home-thumbnls" <?php echo 'src="' . '../public/assets/img/' . $h['ImageName'] . '"';?>>
             <h4><?=$h['Name']?></h4>
             <a href="">Edit</a>
             <a href="?delete=<?=$h['Price']?>">Delete</a>
@@ -22,6 +22,5 @@
         $home = new HomesController();
         $home->DeleteHome($id);
     }
-
 
 ?>

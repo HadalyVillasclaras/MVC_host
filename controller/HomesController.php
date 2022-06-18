@@ -1,20 +1,11 @@
 <?php
     class HomesController{
         private $table = 'Homes';
-
         public function showAllHome(){ 
             require_once '../model/HomesModel.php';
             $home = new HomesModel();
             $homes = $home->getAll($this->table);  
             require_once '../views/Home/homes.php'; 
-        }
-
- 
-        public function showAllMgmt(){ 
-            require_once '../model/HomesModel.php';
-            $home = new HomesModel();
-            $homes = $home->getAll($this->table);   
-            require_once '../views/panel-admin/home-mgmt.php'; 
         }
 
         public function SubmitHome($name, $city, $price, $img){

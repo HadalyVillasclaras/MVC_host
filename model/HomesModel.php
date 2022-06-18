@@ -9,8 +9,7 @@
         private $img;
 
         public function __construct(){
-            parent::__construct(); //conexion
-            echo "mensaje desde Homesmodel";
+            parent::__construct(); //conexion 
         }
         
         function getName(){

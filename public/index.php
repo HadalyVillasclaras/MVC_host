@@ -1,20 +1,20 @@
 <?php 
-    require_once '../views/header.php';
-
     require_once '../config/parameters.php';
-
+    require_once '../libraries/core/Helpers.php';
+    require_once '../views/header.php';
+ 
+    
     //url: variable q hemos creado en htaccess
    if($url = !empty($_GET['url'])){
        $url = $_GET['url'];
    }else{
     $url = 'HomesController/showAllHome';
    }
-
+ 
    $arrUrl = explode("/", $url); //convierte en array los valores tras url
    $controller = $arrUrl[0];
    $method = $arrUrl[0];
-   $params = "";
-
+   $params = ""; 
     
    if(!empty($arrUrl[1])){
        if($arrUrl[1] != ""){
@@ -28,14 +28,8 @@
            $params .= $arrUrl[$i].',';
         }
         $params = trim($params, ',');//para elimminar la ultima coma
-        echo $params;
        }
-   }
-
-   
-
-   echo "<br>";
-   echo "controlador:" . $controller . "| metodo: " . $method . "| params: " . $params;
+   } 
    
    
    //autoload

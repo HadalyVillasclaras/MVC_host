@@ -6,7 +6,7 @@ class UsersController{
     }
  
     public function signUp(){
-        require_once 'views/User/signup.php';
+        require_once '../views/User/signup.php';
     }
 
     public function saveUser(){

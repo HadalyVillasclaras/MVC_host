@@ -1,6 +1,12 @@
-RewriteEngine On
+Options All -Indexes 
+#esto hace que no se pueda acceder a otras carpetas q no sea la public
+RewriteEngine On 
+ 
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -l
+RewriteRule ^ - [L]
 
-RewriteCond ${REQUEST_FILENAME} !-f
-RewriteCond ${REQUEST_FILENAME} !-d
-
-RewriteRule $(.+)^ index.php?uri=$1 [QSA,L]
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L] 
+#todo lo que le pasemos tras ?, se almacena en la variable url
+#esta linea tmb permite trabajar con los parametros de la url.

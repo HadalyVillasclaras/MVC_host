@@ -2,15 +2,17 @@
     require_once 'manual.php';
 
     class HomesModel extends Manual{
-        public function __construct(){
-            parent::__construct(); //conexion
-        }
 
         private $name; 
         private $city;  
         private $price;  
         private $img;
 
+        public function __construct(){
+            parent::__construct(); //conexion
+            echo "mensaje desde Homesmodel";
+        }
+        
         function getName(){
             return $this->name;
         }
@@ -41,11 +43,7 @@
 
         function setImage($img){
             $this->img = $img;
-        }
-
-        
-
-
+        } 
 
 
         //Insert Home
@@ -54,8 +52,6 @@
              echo $fileName;
 
             if($fileName){
-                
-
                 $sql = "INSERT INTO Homes(Name, City, Price, ImageName) VALUES (:name, :city, :price, :img);";
                 $stmt= $this->connection->prepare($sql);
                 $stmt->execute(array(":name"=>$this->name, ":city"=>$this->city, ":price"=>$this->price, ":img"=>$fileName)); 
@@ -102,17 +98,18 @@
             } 
         }
 
-        public function EditHome(){
-            $sql = "UPDATE Homes SET Name = :name, City = :city WHERE Price = :price";
+        public function EditHome($id){
+            $sql = "UPDATE Homes SET Name = :name, City = :city WHERE Id = :id";
             $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":name"=>$this->name, ":city"=>$this->city, ":price"=>$this->price)); 
+            $stmt->execute(array(":name"=>$this->name, ":city"=>$this->city, ":price"=>$id)); 
         }
 
 
-        public function DeleteHome(){
-            $sql = "DELETE FROM Homes WHERE Price = :price";
+        public function DeleteHome($id){
+            echo $id;
+            $sql = "DELETE FROM Homes WHERE Id = :id";
             $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":price"=>$this->price));
+            $stmt->execute(array(":id"=>$id));
         }
 
         

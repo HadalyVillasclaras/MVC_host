@@ -1,8 +1,9 @@
 <?php
 
 class FrontController{
-    public function error404(){
+    public function errorPage(){
         require_once '../views/error404.php';
     }
 
 }
+ 

@@ -6,8 +6,8 @@
         <div class="lodging">
             <img class="home-thumbnls" <?php echo 'src="' . '../public/assets/img/' . $h['ImageName'] . '"';?>>
             <h4><?=$h['Name']?></h4>
-            <a href="">Edit</a>
-            <a href="?delete=<?=$h['Price']?>">Delete</a>
+            <a href="?edit=<?=$h['Id']?>">Edit</a>
+            <a href="?delete=<?=$h['Id']?>">Delete</a>
         </div> 
     <?php endwhile; ?> 
 </section>
@@ -18,9 +18,17 @@
     if(isset($_GET['delete'])){
         require_once '../controller/HomesController.php';
         $id = $_GET['delete'];
-        echo $id;
         $home = new HomesController();
         $home->DeleteHome($id);
     }
+
+    if(isset($_GET['edit'])){
+        require_once '../controller/HomesController.php';
+        $id = $_GET['edit'];
+        $home = new HomesController();
+        $home->EditHome($id);
+    }
+
+    
 
 ?>

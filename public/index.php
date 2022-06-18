@@ -3,15 +3,14 @@
     require_once '../libraries/core/Helpers.php';
     require_once '../views/header.php';
  
-    
-    //url: variable q hemos creado en htaccess
+     
    if($url = !empty($_GET['url'])){
        $url = $_GET['url'];
    }else{
     $url = 'HomesController/showAllHome';
    }
  
-   $arrUrl = explode("/", $url); //convierte en array los valores tras url
+   $arrUrl = explode("/", $url); 
    $controller = $arrUrl[0];
    $method = $arrUrl[0];
    $params = ""; 
@@ -27,7 +26,7 @@
         for ($i=2; $i < count($arrUrl); $i++) { 
            $params .= $arrUrl[$i].',';
         }
-        $params = trim($params, ',');//para elimminar la ultima coma
+        $params = trim($params, ','); 
        }
    } 
    

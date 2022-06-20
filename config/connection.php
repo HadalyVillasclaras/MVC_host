@@ -1,6 +1,5 @@
 <?php
     require_once("config.php");
-
     Class Connection{
         private $connection;
 

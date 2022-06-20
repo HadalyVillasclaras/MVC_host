@@ -3,6 +3,7 @@
 
     class HomesModel extends Manual{
 
+        private $id;
         private $name; 
         private $city;  
         private $price;  
@@ -12,6 +13,10 @@
             parent::__construct(); //conexion 
         }
         
+        function getId(){
+            return $this->id;
+        }
+
         function getName(){
             return $this->name;
         }
@@ -26,6 +31,10 @@
 
         function getImage(){
             return $this->img;
+        }
+
+        function setId($id){
+            $this->id = $id;
         }
 
         function setName($name){
@@ -44,6 +53,16 @@
             $this->img = $img;
         } 
 
+
+
+
+        function getHome(){
+            $sql = "SELECT * FROM Homes WHERE Id = :id";
+            $stmt= $this->connection->prepare($sql);
+            $stmt->execute(array(":id"=>$this->id)); 
+            $homex = $stmt->fetch(); 
+            return $homex;
+        }
 
         //Insert Home
         public function InsertHome(){
@@ -76,31 +95,34 @@
             $fileExtCheck = strtolower(end($fileExt));
             $allowed = array('jpg', 'jpeg', 'png');
 
-            if(in_array($fileExtCheck, $allowed)){ //si fileExtCheck includes any of allowed array
-                if($fileError === 0){
-                    if($fileSize < 10000000){
-                        $fileNameNew = uniqid('', true).'.'.$fileExtCheck;
-                        $filePath = 'assets/img/'.$fileNameNew;
-                        move_uploaded_file($fileTmpName, $filePath);
-                        return $fileNameNew; 
+             
+                if(in_array($fileExtCheck, $allowed)){ //si fileExtCheck includes any of allowed array
+                    if($fileError === 0){
+                        if($fileSize < 10000000){
+                            $fileNameNew = uniqid('', true).'.'.$fileExtCheck;
+                            $filePath = 'assets/img/'.$fileNameNew;
+                            move_uploaded_file($fileTmpName, $filePath);
+                            return $fileNameNew; 
+                        }else{
+                            echo "Please, upload an image with no more than 500MB.";
+                            return false;
+                        }
                     }else{
-                        echo "Please, upload an image with no more than 500MB.";
+                        echo "There was an error uploading your file.";
                         return false;
                     }
                 }else{
-                    echo "There was an error uploading your file.";
+                    echo "Please, upload an image of any of these formats: jpg, jpeg or png.";
                     return false;
-                }
-            }else{
-                echo "Please, upload an image of any of these formats: jpg, jpeg or png.";
-                return false;
-            } 
+                } 
+             
+            
         }
 
-        public function EditHome($id){
-            $sql = "UPDATE Homes SET Name = :name, City = :city WHERE Id = :id";
+        public function EditHome(){    
+            $sql = "UPDATE Homes SET Name = :name, City = :city, Price = :price WHERE Id =:id";
             $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":name"=>$this->name, ":city"=>$this->city, ":price"=>$id)); 
+            $stmt->execute(array(":id"=>$this->id, ":name"=>$this->name, ":city"=>$this->city, ":price"=>$this->price)); 
         }
 
 

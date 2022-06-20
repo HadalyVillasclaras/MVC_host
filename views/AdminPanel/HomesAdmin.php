@@ -1,5 +1,9 @@
-<section><h2>Home management</h2></section>
-<button><a href="upload_home.php">Add home</a> </button>
+<section>
+    <h2>Home management</h2>
+</section>
+
+<button><a href="<?=base_url();?>AdminPanelController/submitHomeForm">Add home</a> </button>
+
 <section class="lodgings">
     <?php while($h = $homes->fetch()): ?>
         

@@ -14,9 +14,8 @@
             <ul class="logs">
                 <li><a href="login.php">Login</a></li>
                 <li><a href="<?=base_url();?>UsersController/signUp">Sign Up</a></li>
-                <li><a href="upload_home.php">Submit Home</a></li>
+                <li><a href="<?=base_url();?>AdminPanelController/submitHomeForm">Submit Home</a></li>
                 <li><a href="<?=base_url();?>AdminPanelController/home">Admin Panel</a></li> 
             </ul> 
         </ul>
-    </nav>
-   
+    </nav> 

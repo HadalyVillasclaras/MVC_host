@@ -1,12 +1,13 @@
-Options All -Indexes 
-#esto hace que no se pueda acceder a otras carpetas q no sea la public
+<IfModule mod_rewrite.c>
+Options -Multiviews
 RewriteEngine On 
- 
+
+RewriteBase /sweet_host/MVC_host/public
+
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -l
 RewriteRule ^ - [L]
 
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L] 
-#todo lo que le pasemos tras ?, se almacena en la variable url
-#esta linea tmb permite trabajar con los parametros de la url.
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]  
+</IfModule>

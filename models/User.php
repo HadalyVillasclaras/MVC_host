@@ -18,11 +18,9 @@
             $stmt= $this->connection->prepare($sql);
             $result = $stmt->execute(array(":name"=>$data['name'], ":surname"=>$data['surname'], ":email"=>$data['email'], ":pass"=>$data['password'])); 
         
-            if($result){
-                "insert ok";
+            if($result){ 
                 return true;
-            }else{
-                echo "error con la bd";
+            }else{ 
                 return false;
             }
         
@@ -32,17 +30,16 @@
             $sql = "SELECT * FROM Users WHERE Email = :email";
             $stmt= $this->connection->prepare($sql);
             $stmt->execute(array(":email"=>$email)); 
-
             $emailExists = $stmt->fetchAll();
+
             if($emailExists){
                 return true;
             }else{
                 return false;
             }
- 
-            
-
         }
+
+        
 
 
 

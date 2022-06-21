@@ -7,7 +7,7 @@
     <input type="text" name="surname" id="surname"><br>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email"><br>
+    <input type="text" name="email" id="email"><br>
     <span class='wrongMsg'>
              <?=$data['emailError'];?>  
         </span>

@@ -9,11 +9,11 @@
             $url = $this->getUrl();
             print_r($url);
 
-            //controller class
-            if(file_exists('../controller/' . ucwords($url[0]) . '.php')){
+            //controllers class
+            if(file_exists('../controllers/' . ucwords($url[0]) . '.php')){
                 $this->currentController = ucwords($url[0]);
             }
-            require_once '../controller/' . $this->currentController . '.php';
+            require_once '../controllers/' . $this->currentController . '.php';
             $this->currentController = new $this->currentController;
             
             //method class
@@ -21,7 +21,7 @@
                 if(method_exists($this->currentController, $url[1])){
                     $this->currentMethod = $url[1];
                     unset($url[1]);
-                }
+                } 
             }
 
             //params- comprueba si existe paramas, y si no lo mantiendene empty

@@ -1,5 +1,5 @@
 <?php
-    class HomePage{
+    class HomePage extends Controller{ //controllers class
         public function __construct()
         { 
         }
@@ -10,10 +10,10 @@
 
         private $table = 'Homes';
         public function showAllHome(){ 
-            require_once '../model/HomesModel.php';
+            $this->model('HomesModel'); 
             $home = new HomesModel();
             $homes = $home->getAll($this->table);  
-            require_once '../views/Home/homes.php'; 
+            $this->view('Home/homes', $homes);
         }
     }
 

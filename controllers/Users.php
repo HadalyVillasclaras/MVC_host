@@ -1,12 +1,12 @@
 <?php
 
-class UsersController{
+class UsersController extends Controller{
     public function index(){
         echo "Clase UsersController, función index()";
     }
  
     public function signUp(){
-        require_once '../views/User/signup.php';
+        $this->view('User/signup');  
     }
 
     public function saveUser(){

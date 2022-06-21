@@ -17,7 +17,7 @@ class UsersController extends Controller{
             //sanitize
             $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
        
-            if(isset($_POST['register'])){
+            if(isset($_POST['login'])){
                 $data = [
                     'email' => trim($_POST['email']),
                     'password' => trim($_POST['password']),
@@ -25,6 +25,27 @@ class UsersController extends Controller{
                     'passError' => ''
                 ];
 
+                if (empty($data['email'])) {
+                    $data['emailError'] = 'Please, enter an email';
+                }
+     
+                if (empty($data['password'])) {
+                    $data['passError'] = 'Please, enter a password';
+                }
+    
+                //Login
+                if (empty($data['emailError']) && empty($data['passError'])) {
+                    $loggedUser = $this->userModel->login($data['email'], $data['password']);
+    
+                    if ($loggedUser) {
+                        echo "loggead";
+                        // $this->createSession($loggedUser);
+                    } else {
+                        $data['passError'] = 'Password or username is incorrect. Please try again.';
+                        echo "erro";
+                        // $this->view('users/login', $data);
+                    }
+                }
                 
 
 
@@ -47,6 +68,9 @@ class UsersController extends Controller{
         $this->view('User/login', $data);  
     }
     
+    public function createSession(){
+            
+    }
 
     public function register(){ 
         $data = [
@@ -121,8 +145,8 @@ class UsersController extends Controller{
                     echo $data['passError'], $data['confirmPassError'], $data['emailError'];
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                    if($this->userModel->register($data)){
-
+                    $registedUser = $this->userModel->register($data);
+                    if($registedUser){
                         //header('location: ' . BASE_URL . '/userscontroller/login' );
 
                     }else{

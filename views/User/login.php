@@ -6,7 +6,7 @@
         <span class='wrongMsg'>
              <?=$data['emailError'];?>  
         </span>
-        <label for=""><input type="password" name="pass" id="pass" placeholder="Password*"></label><br>
+        <label for=""><input type="password" name="password" id="password" placeholder="Password*"></label><br>
         <span class='wrongMsg'>
              <?=$data['passError'];?>  
         </span>

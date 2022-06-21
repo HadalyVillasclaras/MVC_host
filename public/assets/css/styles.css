@@ -127,3 +127,8 @@ footer{
     bottom: 0;
     width: 100%;
 }
+
+.wrongMsg{
+    color: red;
+    display: block;
+}

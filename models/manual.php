@@ -6,7 +6,7 @@
 
         public function __construct(){
             $con = new Connection();
-            $this->connection = $con->Connect();   
+            $this->connection = $con->Connect();    
         }
  
         public function getAll($table){ 

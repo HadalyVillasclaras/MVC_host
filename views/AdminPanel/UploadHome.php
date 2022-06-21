@@ -26,6 +26,4 @@
     <br><br><br>
     <a class="button" href="index.php">Home</a>
 
-<?php
-    require_once '../views/footer.php'; 
-?>
+ 

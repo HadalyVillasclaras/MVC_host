@@ -1,8 +1,7 @@
 <?php
     require_once 'manual.php';
 
-    class HomesModel extends Manual{
-
+    class Home extends Manual{
         private $id;
         private $name; 
         private $city;  
@@ -52,8 +51,6 @@
         function setImage($img){
             $this->img = $img;
         } 
-
-
 
 
         function getHome(){

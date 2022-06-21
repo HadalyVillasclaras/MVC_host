@@ -10,9 +10,12 @@
             print_r($url);
 
             //controllers class
-            if(file_exists('../controllers/' . ucwords($url[0]) . '.php')){
-                $this->currentController = ucwords($url[0]);
+            if(isset($url)){
+                if(file_exists('../controllers/' . ucwords($url[0]) . '.php')){
+                    $this->currentController = ucwords($url[0]);
+                }
             }
+            
             require_once '../controllers/' . $this->currentController . '.php';
             $this->currentController = new $this->currentController;
             

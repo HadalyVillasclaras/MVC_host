@@ -5,7 +5,7 @@
         } 
 
         public function model($model){
-            require_once '../model/' . $model . '.php';
+            require_once '../models/' . $model . '.php';
             return new $model();
  
             //$this->model = new $model(); 

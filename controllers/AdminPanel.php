@@ -8,8 +8,8 @@
             require_once 'HomesController.php';
             $homeController = new HomesController();
 
-            $this->model('HomesModel');
-            $home = new HomesModel();
+            $this->model('Home');
+            $home = new Home();
             $homes = $home->getAll('Homes');   
 
             $this->view('AdminPanel/HomesAdmin', $homes); 
@@ -33,8 +33,7 @@
                     $price=$_POST['price'];
                     $img=$_FILES['image']; 
                     $homeController->EditHome($id,$name, $city, $price, $img);
-                }
-                
+                } 
             }
         }
 
@@ -51,11 +50,7 @@
                 $homeController = new HomesController();
                 $homeController->SubmitHome($name, $city, $price, $img);
             } 
-
         }
-
-
-
     }
 
 

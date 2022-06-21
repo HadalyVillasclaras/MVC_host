@@ -3,17 +3,15 @@
         public function __construct()
         { 
         }
+        private $table = 'Homes';
 
         public function index(){
-            echo "home page";
-        }
+            $this->view('HomePage/cabecera');
 
-        private $table = 'Homes';
-        public function showAllHome(){ 
             $this->model('HomesModel'); 
             $home = new HomesModel();
             $homes = $home->getAll($this->table);  
-            $this->view('Home/homes', $homes);
+            $this->view('Home/homes', $homes); //la vista es diferente a homesController/showAllHome
         }
     }
 

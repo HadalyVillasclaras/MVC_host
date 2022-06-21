@@ -6,7 +6,7 @@
             $this->model('HomesModel');
             $homeModel = new HomesModel();
             $homes = $homeModel->getAll($this->table);  
-            $this->view('Home/homes');  
+            $this->view('Home/homes', $homes);  
         }
 
         function getSingleHome($id){

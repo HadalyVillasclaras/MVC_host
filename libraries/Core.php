@@ -2,7 +2,7 @@
 
     class Core {
         protected $currentController = 'HomePage';
-        protected $currentMethod = 'showAllHome';
+        protected $currentMethod = 'index';
         protected $params = []; 
 
         public function __construct(){      
@@ -24,7 +24,7 @@
                 } 
             }
 
-            //params- comprueba si existe paramas, y si no lo mantiendene empty
+            //params- 
             $this->params = $url ? array_values($url) : [];
 
             call_user_func_array([$this->currentController, $this->currentMethod], $this->params);

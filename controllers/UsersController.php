@@ -14,8 +14,8 @@ class UsersController extends Controller{
         ];
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            //sanitize
-            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
+            
+            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
        
             if(isset($_POST['login'])){
                 $data = [
@@ -38,39 +38,30 @@ class UsersController extends Controller{
                     $loggedUser = $this->userModel->login($data['email'], $data['password']);
     
                     if ($loggedUser) {
-                        echo "loggead";
-                        // $this->createSession($loggedUser);
+                        echo "loggeado";
+                        $this->createSession($loggedUser);
                     } else {
                         $data['passError'] = 'Password or username is incorrect. Please try again.';
-                        echo "erro";
-                        // $this->view('users/login', $data);
+                        $this->view('users/login', $data);
                     }
                 }
-                
-
-
-
-
-
-
-        
             }
-
+        }else{
+            $data = [
+                'email' => '',
+                'password' => '',
+                'emailError' => '',
+                'passError' => ''
+            ];
         }
-
-
-
-
-
-
-
-
         $this->view('User/login', $data);  
     }
     
-    public function createSession(){
-            
-    }
+   
+
+
+
+
 
     public function register(){ 
         $data = [
@@ -165,8 +156,22 @@ class UsersController extends Controller{
 
 
 
+    public function createSession($user){ 
+        require_once '../libraries/session_helper.php';
+        $_SESSION['email'] = $user['Email'];
+        $_SESSION['name'] = $user['Name'];
+        // var_dump($_SESSION);
 
+        header('location: ' . BASE_URL);
+    }
     
+    public function logout(){
+        unset($_SESSION['email']);
+        unset($_SESSION['name']);
+        header('location: ' . BASE_URL);
+
+
+    }
 
 } 
 

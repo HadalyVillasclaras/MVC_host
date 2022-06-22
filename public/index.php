@@ -2,7 +2,7 @@
     require_once '../config/parameters.php'; 
     require_once '../libraries/Controller.php';
     require_once '../libraries/Core.php';
-
+    require_once '../libraries/session_helper.php';
 
 
 

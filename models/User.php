@@ -16,8 +16,8 @@
             $sql = "SELECT * FROM Users WHERE Email = :email";
             $stmt= $this->connection->prepare($sql);
             $stmt->execute(array(":email"=>$email)); 
-            $row = $stmt->fetch(PDO::FETCH_OBJ); //single
-            $hashedPassword = $row->Password;
+            $row = $stmt->fetch(); //single
+            $hashedPassword = $row['Password'];
 
             if(password_verify($password, $hashedPassword)){
                 return $row;

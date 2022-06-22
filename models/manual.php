@@ -12,6 +12,7 @@
         public function getAll($table){ 
             $sql = "SELECT * FROM $table";
             $result = $this->connection->query($sql);
+            $result->fetch();
             return $result; 
         }
 

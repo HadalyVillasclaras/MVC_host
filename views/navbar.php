@@ -14,7 +14,7 @@ var_dump($_SESSION);
                 <?php endif; ?>
             </li>
             <li><a href="<?=BASE_URL;?>userscontroller/register">Register</a></li>
-            <li><a href="<?=BASE_URL;?>adminpanel/submithomeform">Submit Home</a></li>
+            <li><a href="<?=BASE_URL;?>homescontroller/submitHome">Submit Home</a></li>
             <li><a href="<?=BASE_URL;?>adminpanel/home">Admin Panel</a></li> 
         </ul> 
     </ul>

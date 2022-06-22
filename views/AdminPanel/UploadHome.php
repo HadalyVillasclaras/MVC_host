@@ -1,6 +1,6 @@
  
-
-    <form action="" method="POST" enctype="multipart/form-data">
+ 
+    <form action="<?=BASE_URL . 'homescontroller/submitHome' ?>" method="POST" enctype="multipart/form-data">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name"><br>
         <label for="city">City:</label>

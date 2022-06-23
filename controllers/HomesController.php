@@ -11,9 +11,8 @@
             $this->view('Home/homes', $homes);  
         }
 
-
         function getSingleHome($id){ 
-            $this->homeModel->setId($id);
+            $this->homeModel->id = $id;
             $this->homeModel->getHome();
         }
 
@@ -52,10 +51,10 @@
 
                     //Check and submit Home
                     if(empty($data['nameError']) && empty($data['cityError']) && empty($data['imgError'])){
-                        $this->homeModel->setName($name);
-                        $this->homeModel->setCity($city);
-                        $this->homeModel->setPrice($price); 
-                        $this->homeModel->setImage($img);
+                        $this->homeModel->name = $name;
+                        $this->homeModel->city = $city;
+                        $this->homeModel->price = $price; 
+                        $this->homeModel->img = $img; 
                         
                         if($this->homeModel->InsertHome()){
                             $data['submitFeedback'] = 'Your home has been added!';
@@ -74,18 +73,21 @@
             $this->view('AdminPanel/UploadHome', $data);
         }
 
+
+
+
         public function EditHome(){ 
             if(!isLoggedIn()){
                 header("Location: " . BASE_URL . 'userscontroller/login');
             }
 
-            $homes = $this->homeModel->getAll('Homes');   
+            $homes = $this->homeModel->getAll($this->table);   
 
             $this->view('AdminPanel/HomesAdmin', $homes); 
             if(isset($_GET['edit'])){
                 $id = $_GET['edit'];
 
-                $this->homeModel->setId($id);
+                $this->homeModel->id = $id;
                 $homeToEdit = $this->homeModel->getHome();  
                 $this->view('AdminPanel/EditHomeForm', $homeToEdit); 
 
@@ -95,11 +97,11 @@
                     $price=$_POST['price'];
                     $img=$_FILES['image']; 
                      
-                    $this->homeModel->setName($name);
-                    $this->homeModel->setCity($city);
-                    $this->homeModel->setPrice($price); 
-                    $this->homeModel->setImage($img);
-                    $this->homeModel->EditHome();
+                    $this->homeModel->name = $name;
+                    $this->homeModel->city = $city;
+                    $this->homeModel->price = $price; 
+                    $this->homeModel->img = $img; 
+                    $this->homeModel->EditHome(); 
                 } 
             }
 
@@ -115,7 +117,8 @@
             if(isset($_GET['delete'])){
                 $this->view('AdminPanel/DeleteMsg');   
                 $id = $_GET['delete'];  
-                $this->homeModel->DeleteHome($id);
+                $this->homeModel->id = $id;
+                $this->homeModel->DeleteHome();
                 header("location:".$_SERVER['HTTP_REFERER']);
             }
             

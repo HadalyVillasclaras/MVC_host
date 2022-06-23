@@ -2,56 +2,16 @@
     require_once 'manual.php';
 
     class Home extends Manual{
-        private $id;
-        private $name; 
-        private $city;  
-        private $price;  
-        private $img;
+        public $id = '';
+        public $name = ''; 
+        public $city = '';  
+        public $price = '';  
+        public $img = '';
 
         public function __construct(){
             parent::__construct(); //conexion 
         }
         
-        function getId(){
-            return $this->id;
-        }
-
-        function getName(){
-            return $this->name;
-        }
-        
-        function getCity(){
-            return $this->city;
-        }
-
-        function getPrice(){
-            return $this->price;
-        }
-
-        function getImage(){
-            return $this->img;
-        }
-
-        function setId($id){
-            $this->id = $id;
-        }
-
-        function setName($name){
-            $this->name = $name;
-        }
-        
-        function setCity($city){
-            $this->city = $city;
-        }
-
-        function setPrice($price){
-            $this->price = $price;
-        }
-
-        function setImage($img){
-            $this->img = $img;
-        } 
-
 
         function getHome(){
             $sql = "SELECT * FROM Homes WHERE Id = :id";
@@ -124,11 +84,10 @@
         }
 
 
-        public function DeleteHome($id){
-            echo $id;
+        public function DeleteHome(){
             $sql = "DELETE FROM Homes WHERE Id = :id";
             $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":id"=>$id));
+            $stmt->execute(array(":id"=>$this->id));
         }
 
         

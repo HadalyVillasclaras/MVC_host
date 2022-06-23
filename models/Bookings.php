@@ -14,39 +14,7 @@
             parent::__construct(); //conexion 
         }
         
-        function getId(){
-            return $this->id;
-        }
-
-        function getName(){
-            return $this->name;
-        }
-        
-        function getCity(){
-            return $this->city;
-        }
-
-        function getPrice(){
-            return $this->price;
-        }
- 
-
-        function setId($id){
-            $this->id = $id;
-        }
-
-        function setName($name){
-            $this->name = $name;
-        }
-        
-        function setCity($city){
-            $this->city = $city;
-        }
-
-        function setPrice($price){
-            $this->price = $price;
-        }
- 
+    
 
 
         function getBooking(){

@@ -1,10 +1,16 @@
 <?php
     class AdminPanel extends Controller{ 
         public function home(){
+            if(!isLoggedIn()){
+                header("Location: " . BASE_URL . 'userscontroller/login');
+            }
             $this->view('AdminPanel/AdminHome');    
         }
         
         public function homesPanel(){ 
+            if(!isLoggedIn()){
+                header("Location: " . BASE_URL . 'userscontroller/login');
+            }
             require_once 'HomesController.php';
             $this->model('Home');
             $home = new Home();

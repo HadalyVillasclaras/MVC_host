@@ -18,23 +18,67 @@
         }
 
         public function SubmitHome(){ 
-            $this->view('AdminPanel/UploadHome'); 
-            if(isset($_POST['submit'])){ 
-                $name=$_POST['name'];
-                $city=$_POST['city'];
-                $price=$_POST['price'];
-                $img=$_FILES['image'];
-
-                $this->homeModel->setName($name);
-                $this->homeModel->setCity($city);
-                $this->homeModel->setPrice($price); 
-                $this->homeModel->setImage($img);
-                $this->homeModel->InsertHome(); 
+            if(!isLoggedIn()){
+                header("Location: " . BASE_URL . 'userscontroller/login');
             }
+ 
+            $data = [
+                //añadir id para ver quien ha hecho el submit $_SESSION['id']
+                'nameError' => '',
+                'cityError' => '',
+                'imgError' => '',
+                'submitFeedback' => ''
+            ];
+
             
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
+
+                if(isset($_POST['submit'])){ 
+                    $name = trim($_POST['name']);
+                    $city = trim($_POST['city']);
+                    $price = trim($_POST['price']);
+                    $img = $_FILES['image'];
+
+                    if(empty($name)){
+                        $data['nameError'] = 'Field must be filled';
+                    }
+                    if(empty($city)){
+                        $data['cityError'] = 'Field must be filled';
+                    } 
+                    if(empty($img)){
+                        $data['imgError'] = 'Field must be filled';
+                    }
+
+                    //Check and submit Home
+                    if(empty($data['nameError']) && empty($data['cityError']) && empty($data['imgError'])){
+                        $this->homeModel->setName($name);
+                        $this->homeModel->setCity($city);
+                        $this->homeModel->setPrice($price); 
+                        $this->homeModel->setImage($img);
+                        
+                        if($this->homeModel->InsertHome()){
+                            $data['submitFeedback'] = 'Your home has been added!';
+                        }else{
+                            $data['submitFeedback'] = 'Something went wrong. Try again.';
+                        
+                        }
+                    }else{
+                        $this->view('AdminPanel/UploadHome', $data);
+                    }
+
+                    
+                }
+            }
+
+            $this->view('AdminPanel/UploadHome', $data);
         }
 
-        public function EditHome(){  
+        public function EditHome(){ 
+            if(!isLoggedIn()){
+                header("Location: " . BASE_URL . 'userscontroller/login');
+            }
+
             $homes = $this->homeModel->getAll('Homes');   
 
             $this->view('AdminPanel/HomesAdmin', $homes); 
@@ -64,6 +108,9 @@
         }
         
         public function DeleteHome(){ 
+            if(!isLoggedIn()){
+                header("Location: " . BASE_URL . 'userscontroller/login');
+            }
 
             if(isset($_GET['delete'])){
                 $this->view('AdminPanel/DeleteMsg');   
@@ -83,6 +130,7 @@
         
 
 
+        
 
 
 

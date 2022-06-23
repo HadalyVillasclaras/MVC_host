@@ -70,8 +70,9 @@
                 $sql = "INSERT INTO Homes(Name, City, Price, ImageName) VALUES (:name, :city, :price, :img);";
                 $stmt= $this->connection->prepare($sql);
                 $stmt->execute(array(":name"=>$this->name, ":city"=>$this->city, ":price"=>$this->price, ":img"=>$fileName)); 
+                return true;
             }else{
-                echo "<br>An error ocurred while uploading your image.";
+                return false;
             }
             
             

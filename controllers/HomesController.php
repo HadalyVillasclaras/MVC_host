@@ -60,16 +60,12 @@
                             $data['submitFeedback'] = 'Your home has been added!';
                         }else{
                             $data['submitFeedback'] = 'Something went wrong. Try again.';
-                        
                         }
                     }else{
                         $this->view('AdminPanel/UploadHome', $data);
-                    }
-
-                    
+                    } 
                 }
             }
-
             $this->view('AdminPanel/UploadHome', $data);
         }
 
@@ -84,6 +80,7 @@
             $homes = $this->homeModel->getAll($this->table);   
 
             $this->view('AdminPanel/HomesAdmin', $homes); 
+
             if(isset($_GET['edit'])){
                 $id = $_GET['edit'];
 
@@ -91,18 +88,22 @@
                 $homeToEdit = $this->homeModel->getHome();  
                 $this->view('AdminPanel/EditHomeForm', $homeToEdit); 
 
-                if(isset($_POST['submit'])){
-                    $name=$_POST['name'];
-                    $city=$_POST['city'];
-                    $price=$_POST['price'];
-                    $img=$_FILES['image']; 
-                     
-                    $this->homeModel->name = $name;
-                    $this->homeModel->city = $city;
-                    $this->homeModel->price = $price; 
-                    $this->homeModel->img = $img; 
-                    $this->homeModel->EditHome(); 
-                } 
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
+                    if(isset($_POST['submit'])){
+                        $name=$_POST['name'];
+                        $city=$_POST['city'];
+                        $price=$_POST['price'];
+                        $img=$_FILES['image']; 
+    
+                        $this->homeModel->name = $name;
+                        $this->homeModel->city = $city;
+                        $this->homeModel->price = $price; 
+                        $this->homeModel->img = $img;  
+
+                        $this->homeModel->EditHome(); 
+                    } 
+                }
             }
 
 
@@ -121,7 +122,6 @@
                 $this->homeModel->DeleteHome();
                 header("location:".$_SERVER['HTTP_REFERER']);
             }
-            
         } 
 
 

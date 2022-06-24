@@ -79,8 +79,11 @@
 
         public function EditHome(){    
             $sql = "UPDATE Homes SET Name = :name, City = :city, Price = :price WHERE Id =:id";
-            $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":id"=>$this->id, ":name"=>$this->name, ":city"=>$this->city, ":price"=>$this->price)); 
+            $stmt= $this->connection->prepare($sql); 
+            
+            $result = $stmt->execute(array(":id"=>$this->id, ":name"=>$this->name, ":city"=>$this->city, ":price"=>$this->price)); 
+            var_dump($result);
+       
         }
 
 

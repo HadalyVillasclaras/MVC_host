@@ -12,7 +12,7 @@
         <input type="file" name="image"  id="image" accept=".png, .jpg, .jpge" value="<?=$data['ImageName'];?>">
         <p>Max size: 500MB</p>
         <br>
-        <input type="submit" name="submit" value="Submit">
+        <input type="submit" name="submit" value="submit">
     </form>
 
   

@@ -11,7 +11,7 @@
             //$this->model = new $model(); 
         }
 
-        public function view($view, $data = []){
+        public function view($view, $data = []){ 
             if(file_exists('../views/' .  $view . '.php')){  
                 require_once '../views/' . $view . '.php';
             }else{

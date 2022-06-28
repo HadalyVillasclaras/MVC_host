@@ -160,6 +160,7 @@ class UsersController extends Controller{
         require_once '../libraries/session_helper.php';
         $_SESSION['email'] = $user['Email'];
         $_SESSION['name'] = $user['Name'];
+        $_SESSION['user_id'] = $user['Id'];
         // var_dump($_SESSION);
 
         header('location: ' . BASE_URL);
@@ -168,6 +169,8 @@ class UsersController extends Controller{
     public function logout(){
         unset($_SESSION['email']);
         unset($_SESSION['name']);
+        unset($_SESSION['user_id']);
+        session_destroy();
         header('location: ' . BASE_URL);
 
 

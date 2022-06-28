@@ -86,12 +86,16 @@ h4{
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-/*Lodgins*/
+/*Homes*/
 .lodgings{
     display: grid;
     grid-template-columns: repeat(auto-fill, 330px);
     justify-content: center;
     
+}
+
+.lodging{
+    margin-bottom: 2rem;
 }
 
 .thumb{
@@ -106,6 +110,15 @@ h4{
     height: 200px;
 }
 
+
+/* Single home page */
+.home-intro{
+    display: flex;
+}
+
+.home-info{
+    width: 50%;
+}
 /*Formulario*/
 form{
     margin: 3em;

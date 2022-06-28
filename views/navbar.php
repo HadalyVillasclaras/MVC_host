@@ -1,6 +1,3 @@
-<?php 
-var_dump($_SESSION);
-?>
 
 <nav>
     <ul class="menu">
@@ -13,8 +10,8 @@ var_dump($_SESSION);
                     <a href="<?=BASE_URL;?>userscontroller/login">Login</a>
                 <?php endif; ?>
             </li>
-            <li><a href="<?=BASE_URL;?>userscontroller/register">Register</a></li>
-            <li><a href="<?=BASE_URL;?>homescontroller/submitHome">Submit Home</a></li>
+            <li><a href="<?=BASE_URL;?>homescontroller/showallhome">Destinations</a></li> 
+            <li><a href="<?=BASE_URL;?>userscontroller/register">Register</a></li> 
             <li><a href="<?=BASE_URL;?>adminpanel/home">Admin Panel</a></li> 
         </ul> 
     </ul>

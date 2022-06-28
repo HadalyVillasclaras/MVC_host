@@ -7,7 +7,6 @@
 
         public function __construct(){      
             $url = $this->getUrl();
-            print_r($url);
 
             //controllers class
             if(isset($url)){

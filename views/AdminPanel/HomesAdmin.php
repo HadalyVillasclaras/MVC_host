@@ -11,7 +11,7 @@
     <?php while($home = $data->fetch()): ?>
         
         <div class="lodging"> 
-            <img class="home-thumbnls" src="<?=BASE_URL . 'assets/img/' . $home['ImageName'];?>">
+            <img class="home-thumbnls" src="<?=BASE_URL . 'assets/img/' . $home['ImageFolder'] . '/' . $home['ImageName'];?>">
             <h4><?=$home['Name']?></h4>
             <a href="<?= BASE_URL . 'homescontroller/edithome?edit=' . $home['Id']?>">Edit</a>
             <a href="<?= BASE_URL . 'homescontroller/deletehome?delete=' . $home['Id']?>">Delete</a>

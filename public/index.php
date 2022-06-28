@@ -10,7 +10,12 @@
     require_once '../views/navbar.php';
 
     
+ 
+
+
+
     $init = new Core();
+
 
  
 //    //autoload

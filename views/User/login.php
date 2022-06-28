@@ -1,21 +1,21 @@
- 
+<form action="<?=BASE_URL?>userscontroller/login" method="POST">
+    <legend>Log-in</legend>
+    <label for=""><input type="email" name="email" id="email" placeholder="Email*"></label><br>
+    <span class='wrongMsg'>
+            <?=$data['emailError'];?>  
+    </span>
+    <label for=""><input type="password" name="password" id="password" placeholder="Password*"></label><br>
+    <span class='wrongMsg'>
+            <?=$data['passError'];?>  
+    </span>
     
-    <form action="<?=BASE_URL?>userscontroller/login" method="POST">
-        <legend>Log-in</legend>
-        <label for=""><input type="email" name="email" id="email" placeholder="Email*"></label><br>
-        <span class='wrongMsg'>
-             <?=$data['emailError'];?>  
-        </span>
-        <label for=""><input type="password" name="password" id="password" placeholder="Password*"></label><br>
-        <span class='wrongMsg'>
-             <?=$data['passError'];?>  
-        </span>
-        
-        <input type="submit" id="login" name="login" value="Login">
+    <p class="options">Not register yet? 
+        <a href="<?=BASE_URL;?>userscontroller/register">Create an account!</a> 
+    </p>
+    
+    <input type="submit" id="login" name="login" value="Login">
 
-        <p class="options">Not register yet? 
-            <a href="<?=BASE_URL;?>userscontroller/register">Create an account!</a> 
-        </p>
-    </form>
+    
+</form>
  
  

@@ -1,6 +1,7 @@
- 
+<section class="submit-hm-sect">
  
     <form action="<?=BASE_URL . 'homescontroller/submitHome' ?>" method="POST" enctype="multipart/form-data">
+        <legend><h3>Submit form</h3></legend>
         <label for="name">Name:</label>
         <input type="text" name="name" id="name"><br>
         <span class='wrongMsg'>
@@ -21,21 +22,11 @@
              <?=$data['imgError'];?>  
         </span>
         <br>
-        <input type="submit" name="submit" value="Submit">
+        <input class="btn"  type="submit" name="submit" value="Submit">
         <span class='wrongMsg'>
              <?=$data['submitFeedback'];?>  
         </span>
     </form>
+</section>
 
-    <?php
-
-    //esto tiene que estar en el controlador
-    
-
-    ?>
-
-
-    <br><br><br>
-    <a class="button" href="index.php">Home</a>
-
- 
+   

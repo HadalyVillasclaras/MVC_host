@@ -1,49 +1,73 @@
 <section class="single-home">
-    <div class="home-gallery">
-        <img class="home-gallery-thumb" src="<?=BASE_URL . 'assets/img/' . $data['ImageFolder'] . '/' . $data['ImageName'];?>" alt="">
-    </div>
 
-    <article class="home-intro">
-        <div class="home-info">
-        <h2><?=$data['Name']?></h2> 
-        <p class="home-desc">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pharetra sollicitudin fringilla. Mauris at lacus est. Morbi id mi in ex vestibulum suscipit quis et neque. Aenean suscipit vel erat et tincidunt. Phasellus suscipit mi id condimentum ultrices. Morbi id blandit lectus, nec sodales erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus vel porttitor urna. Sed sit amet cursus elit.
-        </p>
+    <article class="sngl-hm-intro">
+        <div>
+            <h2><?=$data['Name']?></h2> 
+            <p class="home-desc">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pharetra sollicitudin fringilla. Mauris at lacus est. Morbi id mi in ex vestibulum suscipit quis et neque. Aenean suscipit vel erat et tincidunt. Phasellus suscipit mi id condimentum ultrices. Morbi id blandit lectus, nec sodales erat. 
+             </p>
+             <h4>5 guests 2 bedrooms 5 beds 1 bath</h4>
         </div>
 
-
-        <div class="home-calendar">  
-            <form action="<?=BASE_URL . 'bookingscontroller/checkAvailability?id=' . $data['homeId']?>" method="POST">
-            <label for="startDate">Checkin: </label>
-            <input type="date" name="startDate" placeholder="Start Date" ><br>
-            <span class='wrongMsg'>
-                <?=$data['startDateError'];?>  
-            </span>
-            <label for="endDate">Checkout: </label>
-            <input type="date" name="endDate" placeholder="End Date"><br>
-            <span class='wrongMsg'>
-                <?=$data['endDateError'];?>  
-            </span>
-            <input type="number" name="guests" placeholder="Guests"><br>
-            <span class='wrongMsg'>
-                <?=$data['guestsError'];?>  
-            </span>
-
-            <span class='wrongMsg'>
-                <?=$data['reservationError'];?>  
-            </span>
-
-
-            <?php if($data['availableHome'] == true) :?>
-               <button href="<?=BASE_URL . 'bookingscontroller/checkout?id=' . $data['homeId']?>">Book it!</button>
-            <?php else: ?> 
-                <input type="submit" name="check-availability" value="Check availability"><br>
-            <?php endif; ?> 
-
-
-            
-        </form>
-        </div>
-
+        <img src="<?=BASE_URL . 'assets/img/' . $data['ImageFolder'] . '/' . $data['ImageName'];?>" alt="">
     </article>
+
+<hr>
+    <article class="sngl-hm-two">
+        <div>
+            <h4>Prices</h4>
+            <p>
+                <?=$data['Price']?>€ per night <br>
+                Week discount: 12%<br>
+                Month discount: 20%<br>
+                Extra people: 30€ per night
+            </p>
+
+            <h4>Check-In & Check-Out</h4>
+            <p>
+                Check-in: After 4:00 pm <br>
+                Check-out: Before 11:00 am
+            </p>
+        </div>
+        <div>  
+            <form class="booking-form" action="<?=BASE_URL . 'bookingscontroller/checkAvailability?id=' . $data['homeId']?>" method="POST">
+                 <h3>Check availability </h3>
+            
+                <label for="startDate"></label>
+                <input type="date" name="startDate" placeholder="Start Date" value="<?=$data['startDate'];?>"><br>
+                <span class='wrongMsg'>
+                    <?=$data['errorFeedback'];?>  
+                </span>
+                <label for="endDate"></label>
+                <input type="date" name="endDate" placeholder="End Date" value="<?=$data['endDate'];?>"><br>
+                <span class='wrongMsg'>
+                    <?=$data['errorFeedback'];?>  
+                </span>
+                <input type="number" name="guests" placeholder="Guests" value="<?=$data['guests'];?>"><br>
+                <span class='wrongMsg'>
+                    <?=$data['errorFeedback'];?>  
+                </span>
+
+                <!-- Availability feedback and total price -->
+                <span class='wrongMsg'>
+                    <?=$data['reservationFeedback'];?>  
+                </span>
+
+                
+
+
+                <?php if($data['availableHome'] == true) :?>
+                    <div class="home-totalcost">
+                        <p>Total cost: <?=$data['Price'];?>€ x <?=$data['Nights'];?> nights = <?=$data['totalCost'];?>€</p>
+                    </div>
+
+                    <a class="btn" href="<?=BASE_URL . 'bookingscontroller/checkout?id=' . $data['homeId'] . '&checkin=' .  $data['startDate'] . '&checkout=' .  $data['endDate'] . '&guests=' .  $data['guests']?>">Book it!</a>
+                <?php else: ?> 
+                    <input class="btn" type="submit" name="check-availability" value="Check availability"><br>
+                <?php endif; ?> 
+            </form>
+        </div>
+    </article>
+        
+
 </section>

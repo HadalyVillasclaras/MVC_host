@@ -21,17 +21,21 @@
         }
 
 
-        public function home(){ //single page home
-            $home = $this->getSingleHome($_GET['id']);
+        public function home(){ //single page home 
+            $id = $_GET['id'];
+            $this->homeModel->id = $id;
+            $home = $this->homeModel->getHome();
             $data = [ 
                 'homeId' => $home['Id'],
                 'Name' => $home['Name'],
+                'Price' => $home['Price'],
                 'ImageFolder' => $home['ImageFolder'],
                 'ImageName' => $home['ImageName'],
-                'startDateError' => '',
-                'endDateError' => '',
-                'guestsError' => '',
-                'reservationError' => '',
+                'startDate' => '',
+                'endDate' => '',
+                'guests' => '',
+                'errorFeedback' => '', 
+                'reservationFeedback' => '',
                 'availableHome' => false
             ]; 
             $this->view('Home/home', $data);  

@@ -2,29 +2,24 @@
     require_once 'manual.php';
 
     class Home extends Manual{
+        public $table = 'Homes';
         public $id = '';
         public $name = ''; 
         public $city = '';  
         public $price = '';  
         public $img = '';
         public $imgFolder = '';
+        
 
         public function __construct(){
             parent::__construct(); //conexion 
         }
         
 
-        function getHome(){
-            $sql = "SELECT * FROM Homes WHERE Id = :id";
-            $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":id"=>$this->id)); 
-            $home = $stmt->fetch(); 
-            return $home;
-        }
+        
 
         //Insert Home
         public function InsertHome(){
-
             if($this->img){
                 $sql = "INSERT INTO Homes(Name, City, Price, ImageName, ImageFolder) VALUES (:name, :city, :price, :img, :imgfolder);";
                 $stmt= $this->connection->prepare($sql);

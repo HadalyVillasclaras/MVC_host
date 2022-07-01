@@ -8,7 +8,7 @@
         public function checkAvailability(){ 
             $id = $_GET['id'];
             $this->homeModel->id = $id;
-            $home = $this->homeModel->getHome();
+            $home = $this->homeModel->getSingleRow();
             $data = [ 
                 'homeId' => $id,
                 'homeId' => $home['Id'],
@@ -73,11 +73,9 @@
                     }
                 }
             }
-            $this->view('Home/home', $data);  
+            $this->view('Home/singleHome', $data);  
         }
-
-
-
+ 
 
         public function checkOut(){
             if(!isLoggedIn()){
@@ -86,7 +84,7 @@
    
 
             $this->homeModel->id = $_GET['id'];
-            $home = $this->homeModel->getHome();
+            $home = $this->homeModel->getSingleRow();
 
             $data = [
                 'UserId' => $_SESSION['user_id'],
@@ -104,7 +102,7 @@
                 'totalCost' => ''
             ];
 
-            $data = $this->calculateCost($data);
+            $data = $this->calculateCost($data); 
             $this->submitReservation($data);
 
 
@@ -120,12 +118,7 @@
             $this->bookingsModel->guests = $data['Guests'];
             $this->bookingsModel->totalCost = $data['totalCost']; 
             
-            $this->bookingsModel->insertReservation();
-
-
-
-
-
+            $this->bookingsModel->insertBooking();  
         }
 
 

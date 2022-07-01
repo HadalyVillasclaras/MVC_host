@@ -1,30 +1,22 @@
 <?php
-    class HomesController extends Controller{
-        private $table = 'Homes';
-        private $imageClass;
-
+    class HomesController extends Controller{ 
+         public $table = 'Homes';
         public function __construct(){
             $this->homeModel = $this->model('Home');
             require_once '../libraries/image.php';
             $this->imageClass = new Image();
         }
         
-        public function showAllHome(){ 
+        public function allHomes(){ 
             $homes = $this->homeModel->getAll($this->table);   
             $this->view('Home/homes', $homes);  
         }
-
-        function getSingleHome($id){ 
-            $this->homeModel->id = $id;
-            $home = $this->homeModel->getHome();
-            return $home;
-        }
-
+ 
 
         public function home(){ //single page home 
             $id = $_GET['id'];
             $this->homeModel->id = $id;
-            $home = $this->homeModel->getHome();
+            $home = $this->homeModel->getSingleRow();
             $data = [ 
                 'homeId' => $home['Id'],
                 'Name' => $home['Name'],
@@ -38,8 +30,9 @@
                 'reservationFeedback' => '',
                 'availableHome' => false
             ]; 
-            $this->view('Home/home', $data);  
+            $this->view('Home/singleHome', $data);  
         }
+
 
         public function SubmitHome(){ 
             if(!isLoggedIn()){
@@ -93,16 +86,14 @@
                         }
                         
                     }else{
-                        $this->view('AdminPanel/UploadHome', $data);
+                        $this->view('Admin/UploadHome', $data);
                     } 
                 }
             }
-            $this->view('AdminPanel/UploadHome', $data);
+            $this->view('Admin/UploadHome', $data);
         }
 
-
-
-
+ 
         public function EditHome(){ 
             if(!isLoggedIn()){
                 header("Location: " . BASE_URL . 'userscontroller/login');
@@ -110,14 +101,14 @@
 
             $homes = $this->homeModel->getAll($this->table);   
 
-            $this->view('AdminPanel/HomesAdmin', $homes); 
+            $this->view('Admin/HomesAdmin', $homes); 
 
             if(isset($_GET['edit'])){
                 $id = $_GET['edit'];
 
                 $this->homeModel->id = $id;
-                $homeToEdit = $this->homeModel->getHome();  
-                $this->view('AdminPanel/EditHomeForm', $homeToEdit); 
+                $homeToEdit = $this->homeModel->getSingleRow();  
+                $this->view('Admin/EditHomeForm', $homeToEdit); 
 
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
@@ -133,6 +124,9 @@
                         $this->homeModel->img = $img;  
 
                         $this->homeModel->EditHome(); 
+                        header('Location: '.$_SERVER['HTTP_REFERER']);
+                        $this->view('Admin/EditHomeForm', $homeToEdit); 
+                        
                     } 
                 }
             }
@@ -141,13 +135,14 @@
             
         }
         
+
         public function DeleteHome(){ 
             if(!isLoggedIn()){
                 header("Location: " . BASE_URL . 'userscontroller/login');
             }
 
             if(isset($_GET['delete'])){
-                $this->view('AdminPanel/DeleteMsg');   
+                $this->view('Admin/DeleteMsg');   
                 $id = $_GET['delete'];  
                 $this->homeModel->id = $id;
                 $this->homeModel->DeleteHome();
@@ -156,15 +151,6 @@
         } 
 
 
-
-
-
-        public function homeImgsFolder($homeName){
-            $folder = $this->imageClass->imgFolderName($homeName);
-            echo 'estamos en imgsfolder functionn ok' .  $folder;
-            return $folder;
-
-        }
 
         
 

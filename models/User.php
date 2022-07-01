@@ -2,10 +2,12 @@
     require_once 'manual.php';
 
     class User extends Manual{ 
-        private $name; 
-        private $surname;
-        private $email;  
-        private $pass;  
+        public $table = 'Users';
+        public $id;
+        public $name; 
+        public $surname;
+        public $email;  
+        public $pass;  
  
         public function __construct(){
             parent::__construct(); //conexion
@@ -52,6 +54,14 @@
             }else{
                 return false;
             }
+        }
+
+        public function checkRole(){
+            $sql = "SELECT * FROM Users WHERE Id = :id";
+            $stmt= $this->connection->prepare($sql);
+            $stmt->execute(array(":id"=>$this->id)); 
+            $role = $stmt->fetch();
+            return $role;
         }
 
 

@@ -3,6 +3,8 @@
 class UsersController extends Controller{
     public function __construct(){
         $this->userModel = $this->model('User');
+        $this->homeModel = $this->model('Home');
+        $this->bookingModel = $this->model('Bookings');
     }
     
     public function login(){
@@ -59,6 +61,29 @@ class UsersController extends Controller{
     
    
 
+    public function myPanel(){
+        if(!isLoggedIn()){
+            header("Location: " . BASE_URL . 'userscontroller/login');
+        }
+
+        //comprueba rol de usuario 
+        $this->userModel->id  = $_SESSION['user_id'];
+        
+        $role = $this->userModel->checkRole();
+
+        if($role['Role'] == 'Admin'){
+            $homes = $this->homeModel->getAll('Homes');   
+            $this->view('Admin/HomesAdmin', $homes); 
+
+            $bookings = $this->bookingModel->getAll('Bookings');   
+            $this->view('Admin/BookingAdmin', $bookings); 
+
+        }elseif ($role['Role'] == 'Guest') {
+            echo "guest panel";
+        } 
+        
+
+    }
 
 
 

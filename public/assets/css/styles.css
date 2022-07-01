@@ -3,7 +3,7 @@
 
 :root{
     --dark-green: #191C0F;
-    --light-bg:#F0F0EA;
+    --light-bg:#F5F0DE;
     --btn-bg: #B56040;
 }
 
@@ -102,6 +102,14 @@ input{
     border-bottom: 0.5px solid var(--dark-green);
 }
 
+.close-btn{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 2rem;
+    color: var(--btn-bg);
+    font-family: 'Kanit';
+}
 
 
 .wrongMsg{
@@ -315,8 +323,7 @@ input{
 }
 
 .sngl-hm-intro h4{
-    margin-top: 4rem;
-    font-size: 1.5rem;
+    margin-top: 4rem; 
 }
 
 .sngl-hm-two{
@@ -472,8 +479,20 @@ td a{
 }
 
 /*Edit home*/
+.edit-hm-sect{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 100vh;
+    padding: 0;
+}
 .edit-hm-sect form{
-    width: 40%;
+    position: relative;
+    width: 45%;
+    margin: 10vh auto;
+    background: var(--light-bg);
+    padding: 3rem 4rem;
+    border: 1px solid var(--dark-green);
 }
 
 
@@ -499,8 +518,7 @@ footer p, footer a, footer li{
     margin-bottom: 1rem;
 }
 
-footer h4{
-    font-size: 1.8rem;
+footer h4{ 
     color: var(--light-bg);
     margin-bottom: 1rem;
 

@@ -16,14 +16,10 @@
 
     $init = new Core();
 
-
  
-//    //autoload
-//    require_once '../libraries/Autoload.php'; 
    
  
-
-//<!----- Footer ---->
+ 
     require_once '../views/footer.php'; 
 ?>
      

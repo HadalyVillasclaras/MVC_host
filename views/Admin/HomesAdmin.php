@@ -1,6 +1,6 @@
 
  <section class="admin-homes">
-    <h2>Homes management</h2>
+    <h4>Homes management</h4>
     
     <a class="btn admin-addhm" href="<?=BASE_URL;?>homescontroller/submitHome">Add new home</a>
 
@@ -16,9 +16,9 @@
         <?php while($home = $data->fetch()): ?> 
             <tr>
                 <td><img src="<?=BASE_URL . 'assets/img/' . $home['ImageFolder'] . '/' . $home['ImageName'];?>"></td> 
-                <td><h4><?=$home['Name']?></h4></td> 
-                <td><h4><?=$home['City']?></h4></td> 
-                <td><h4><?=$home['Price']?> €</h4></td> 
+                <td><p><?=$home['Name']?></p></td> 
+                <td><p><?=$home['City']?></p></td> 
+                <td><p><?=$home['Price']?> €</p></td> 
                 <td>
                     <a href="<?= BASE_URL . 'homescontroller/edithome?edit=' . $home['Id']?>">Edit</a>
                     <a href="<?= BASE_URL . 'homescontroller/deletehome?delete=' . $home['Id']?>">Delete</a>
@@ -30,3 +30,5 @@
         
     </table>
  </section>
+
+

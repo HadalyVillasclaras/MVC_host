@@ -9,10 +9,10 @@
                     <a href="<?=BASE_URL;?>userscontroller/login">Login</a>
                 <?php endif; ?>
             </li>
-            <li><a href="<?=BASE_URL;?>homescontroller/showallhome">Destinations</a></li> 
+            <li><a href="<?=BASE_URL;?>homescontroller/allhomes">Destinations</a></li> 
             <li><a href="<?=BASE_URL;?>userscontroller/register">Register</a></li> 
 
-            <li><a href="<?=BASE_URL;?>adminpanel/home">My Panel</a></li> 
+            <li><a href="<?=BASE_URL;?>userscontroller/mypanel">My Panel</a></li> 
         </ul> 
     </ul>
 </nav> 

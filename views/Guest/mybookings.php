@@ -1,7 +1,5 @@
 <section class="admin-homes">
-    <h4>My reservations</h4>
-     
-
+    <h4>My reservations</h4> 
     <table>
         <tr>
             <th>Home Id</th>
@@ -11,9 +9,8 @@
             <th>Guests</th>
             <th>Total cost</th>
 
-        </tr>
-
-        <?php while($booking = $data->fetch()): ?> 
+        </tr> 
+        <?php foreach($data as $booking): ?> 
             <tr>
                 <td><p><?=$booking['User_id']?></p></td> 
                 <td><p><?=$booking['Home_id']?></p></td> 
@@ -22,12 +19,10 @@
                 <td><p><?=$booking['Guests']?></p></td> 
                 <td><p><?=$booking['Cost']?> €</p></td> 
 
-
-               
-            
+ 
             </tr>
                 
-        <?php endwhile; ?> 
+        <?php endforeach; ?> 
         
     </table>
  </section>

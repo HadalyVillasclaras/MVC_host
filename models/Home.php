@@ -36,7 +36,7 @@
             $stmt= $this->connection->prepare($sql); 
             
             $result = $stmt->execute(array(":id"=>$this->id, ":name"=>$this->name, ":city"=>$this->city, ":price"=>$this->price)); 
-            var_dump($result);
+             
        
         }
 

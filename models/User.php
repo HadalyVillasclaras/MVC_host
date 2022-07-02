@@ -42,6 +42,15 @@
             }
         
         }
+
+        public function findUserById(){ 
+            $sql = "SELECT * FROM Users WHERE Id = :id";
+            $stmt= $this->connection->prepare($sql);
+            $stmt->execute(array(":id"=>$this->id)); 
+            $result = $stmt->fetch();
+
+            return $result;
+        }
         
         public function findUserEmail($email){ 
             $sql = "SELECT * FROM Users WHERE Email = :email";

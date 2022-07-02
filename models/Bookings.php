@@ -25,10 +25,10 @@
         }
 
         function findBookingByUserId(){
-            $sql = "SELECT * FROM Bookings WHERE UserId = :userId";
+            $sql = "SELECT * FROM Bookings WHERE User_id = :id";
             $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":id"=>$this->UserId)); 
-            $bookings = $stmt->fetch(); 
+            $stmt->execute(array(":id"=>$this->userId)); 
+            $bookings = $stmt->fetchAll(); 
             return $bookings;
         }
 

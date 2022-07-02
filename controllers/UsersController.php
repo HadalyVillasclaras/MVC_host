@@ -59,35 +59,6 @@ class UsersController extends Controller{
         $this->view('User/login', $data);  
     }
     
-   
-
-    public function myPanel(){
-        if(!isLoggedIn()){
-            header("Location: " . BASE_URL . 'userscontroller/login');
-        }
-
-        //comprueba rol de usuario 
-        $this->userModel->id  = $_SESSION['user_id'];
-        
-        $role = $this->userModel->checkRole();
-
-        if($role['Role'] == 'Admin'){
-            $homes = $this->homeModel->getAll('Homes');   
-            $this->view('Admin/HomesAdmin', $homes); 
-
-            $bookings = $this->bookingModel->getAll('Bookings');   
-            $this->view('Admin/BookingAdmin', $bookings); 
-
-        }elseif ($role['Role'] == 'Guest') {
-            echo "guest panel";
-        } 
-        
-
-    }
-
-
-
-
     public function register(){ 
         $data = [
             'name' => '',
@@ -179,14 +150,57 @@ class UsersController extends Controller{
         $this->view('User/register', $data);  
     }
 
+    public function myPanel(){
+        if(!isLoggedIn()){
+            header("Location: " . BASE_URL . 'userscontroller/login');
+        }
+
+        $userId = $_SESSION['user_id']; 
+
+        $this->userModel->id  = $userId; 
+        $this->bookingModel->userId  =  $userId; 
+
+        $role = $this->userModel->checkRole();
+
+        if($role['Role'] == 'Admin'){
+            $homes = $this->homeModel->getAll('Homes');   
+            $this->view('Admin/HomesAdmin', $homes); 
+
+            $bookings = $this->bookingModel->getAll('Bookings');   
+            $this->view('Admin/BookingAdmin', $bookings); 
+
+        }elseif ($role['Role'] == 'Guest') { 
+            $userInfo = $this->userModel->findUserById();
+            $this->view('Guest/index', $userInfo); 
+            
+            $userBookings = $this->bookingModel->findBookingByUserId();
+            
+            // foreach ($userBookings as $booking) {  
+            //     $this->homeModel->id = $booking['Home_id'];
+            //     $homeInfo = $this->homeModel->getSingleRow();
+
+            //     print_r($homeInfo);
+            //     echo "<br>";
+
+            // } 
+ 
+
+            $this->view('Guest/mybookings', $userBookings); 
+
+        } 
+        
+
+    }
+
+
+
 
 
     public function createSession($user){ 
         require_once '../libraries/session_helper.php';
         $_SESSION['email'] = $user['Email'];
         $_SESSION['name'] = $user['Name'];
-        $_SESSION['user_id'] = $user['Id'];
-        // var_dump($_SESSION);
+        $_SESSION['user_id'] = $user['Id']; 
 
         header('location: ' . BASE_URL);
     }

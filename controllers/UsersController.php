@@ -167,6 +167,8 @@ class UsersController extends Controller{
             $this->view('Admin/HomesAdmin', $homes); 
 
             $bookings = $this->bookingModel->getAll('Bookings');   
+ 
+
             $this->view('Admin/BookingAdmin', $bookings); 
 
         }elseif ($role['Role'] == 'Guest') { 
@@ -174,16 +176,6 @@ class UsersController extends Controller{
             $this->view('Guest/index', $userInfo); 
             
             $userBookings = $this->bookingModel->findBookingByUserId();
-            
-            // foreach ($userBookings as $booking) {  
-            //     $this->homeModel->id = $booking['Home_id'];
-            //     $homeInfo = $this->homeModel->getSingleRow();
-
-            //     print_r($homeInfo);
-            //     echo "<br>";
-
-            // } 
- 
 
             $this->view('Guest/mybookings', $userBookings); 
 

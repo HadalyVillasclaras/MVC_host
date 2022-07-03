@@ -1,4 +1,13 @@
-        <footer> 
+       
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     
+    <script src="<?=BASE_URL;?>assets/js/main.js"></script> 
+      
+      
+      
+      
+      
+       <footer> 
             <section class="footer-sect-newslttr"> 
                 <a class="logo" href="<?=BASE_URL;?>"><img src="<?=BASE_URL;?>assets/img/kodu_logo_w.png" alt=""></a>
                 <form action="">

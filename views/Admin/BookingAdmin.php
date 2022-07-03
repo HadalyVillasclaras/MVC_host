@@ -13,7 +13,7 @@
 
         </tr>
 
-        <?php while($booking = $data->fetch()): ?> 
+        <?php foreach($data as $booking): ?> 
             <tr>
                 <td><p><?=$booking['User_id']?></p></td> 
                 <td><p><?=$booking['Home_id']?></p></td> 
@@ -27,7 +27,7 @@
             
             </tr>
                 
-        <?php endwhile; ?> 
+        <?php endforeach; ?> 
         
     </table>
  </section>

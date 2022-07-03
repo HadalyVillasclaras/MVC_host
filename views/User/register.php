@@ -13,13 +13,13 @@
         </span>
             
         <label for="password"></label>
-        <input type="text" name="password" id="password" placeholder="Password"><br>
+        <input type="password" name="password" id="password" placeholder="Password"><br>
         <span class='wrongMsg'>
             <?=$data['passError'];?>  
         </span>
 
         <label for="confirmPassword"></label>
-        <input type="text" name="confirmPassword" id="confirmPassword" placeholder="Repeat password"><br>
+        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repeat password"><br>
         <span class='wrongMsg'>
             <?=$data['confirmPassError'];?>  
         </span>

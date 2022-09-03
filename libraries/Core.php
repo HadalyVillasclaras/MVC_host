@@ -13,14 +13,14 @@ error_reporting(E_ALL);
 
             $url = $this->getUrl();
 
-            //controllers class
+            // class
             if(isset($url)){
-                if(file_exists('../controllers/' . ucwords($url[0]) . '.php')){
+                if(file_exists('../controller/' . ucwords($url[0]) . '.php')){
                     $this->currentController = ucwords($url[0]);
                 }
             }
             
-            require_once '../controllers/' . $this->currentController . '.php';
+            require_once '../controller/' . $this->currentController . '.php';
             $this->currentController = new $this->currentController;
             
             //method class

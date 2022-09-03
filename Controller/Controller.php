@@ -7,8 +7,8 @@ class Controller
 
     public function model($model)
     {
-        if(file_exists('../models/' . $model . '.php')) {
-            require_once '../models/' . $model . '.php';
+        if(file_exists('../model/' . $model . '.php')) {
+            require_once '../model/' . $model . '.php';
             return new $model();
         } else {
             die("Model does not exists.");
@@ -17,8 +17,8 @@ class Controller
 
     public function view($view, $data = [])
     { 
-        if(file_exists('../views/' .  $view . '.php')){  
-            require_once '../views/' . $view . '.php';
+        if(file_exists('../view/' .  $view . '.php')){  
+            require_once '../view/' . $view . '.php';
         }else{
             die("View does not exists.");
         }

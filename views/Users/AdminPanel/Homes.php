@@ -1,8 +1,7 @@
-
- <section class="admin-homes">
+<section class="admin-homes">
     <h4>Homes management</h4>
     
-    <a class="btn admin-addhm" href="<?=BASE_URL;?>homescontroller/submitHome">Add new home</a>
+    <a class="btn admin-addhm" href="<?=BASE_URL;?>homecontroller/addHome">Add new home</a>
 
     <table>
         <tr>
@@ -20,8 +19,8 @@
                 <td><p><?=$home['city']?></p></td> 
                 <td><p><?=$home['price']?> €</p></td> 
                 <td>
-                    <a href="<?= BASE_URL . 'homescontroller/edithome?edit=' . $home['id']?>">Edit</a>
-                    <a href="<?= BASE_URL . 'homescontroller/deletehome?delete=' . $home['id']?>">Delete</a>
+                    <a href="<?= BASE_URL . 'homecontroller/edithome?edit=' . $home['id']?>">Edit</a>
+                    <a class="delete" href="<?= BASE_URL . 'homecontroller/deletehome?delete=' . $home['id']?>">Delete</a>
                 </td>
             
             </tr>
@@ -30,5 +29,3 @@
         
     </table>
  </section>
-
-

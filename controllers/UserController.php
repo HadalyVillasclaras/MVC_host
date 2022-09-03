@@ -1,6 +1,6 @@
 <?php
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
@@ -52,7 +52,7 @@ class UsersController extends Controller
                         $this->createSession($loggedUser);
                     } else {
                         $data['passError'] = 'Password or username is incorrect. Please try again.';
-                        $this->view('user/login', $data);
+                        $this->view('Users/login', $data);
                     }
                 }
             }
@@ -64,7 +64,7 @@ class UsersController extends Controller
                 'passError' => ''
             ];
         }
-        $this->view('User/login', $data);  
+        $this->view('Users/login', $data);  
     }
     
     public function register(){ 
@@ -142,7 +142,7 @@ class UsersController extends Controller
 
                     $registedUser = $this->userModel->register($data);
                     if($registedUser){
-                        //header('location: ' . BASE_URL . '/userscontroller/login' );
+                        //header('location: ' . BASE_URL . '/usercontroller/login' );
 
                     }else{
                         die('Something went wrong');
@@ -155,12 +155,12 @@ class UsersController extends Controller
             }
         }
 
-        $this->view('User/register', $data);  
+        $this->view('Users/register', $data);  
     }
 
     public function myPanel(){
         // if(!isLoggedIn()){
-        //     header("Location: " . BASE_URL . 'userscontroller/login');
+        //     header("Location: " . BASE_URL . 'usercontroller/login');
         // }
 
         $userId = $_SESSION['user_id']; 
@@ -173,21 +173,20 @@ class UsersController extends Controller
         if($role['role'] == 'Admin'){
             $homes = $this->homeModel->getAll('Homes');   
          
-            $this->view('Admin/HomesAdmin', $homes); 
+            $this->view('Users/AdminPanel/Homes', $homes); 
 
             $reservations = $this->reservationModel->getAll('Reservations');   
  
 
-            $this->view('Admin/ReservationAdmin', $reservations); 
+            $this->view('Users/AdminPanel/Reservation', $reservations); 
 
         }elseif ($role['role'] == 'Guest') { 
             $userInfo = $this->userModel->findUserById();
-            $this->view('Guest/index', $userInfo); 
+            $this->view('Users/GuestPanel/index', $userInfo); 
             
             $userReservations = $this->reservationModel->findReservationByUserId();
 
-            $this->view('Guest/myreservations', $userReservations); 
-
+            $this->view('Users/GuestPanel/reservations', $userReservations); 
         } 
         
 

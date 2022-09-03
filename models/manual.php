@@ -1,28 +1,30 @@
 <?php
-    require_once '../config/connection.php';
+require_once '../config/connection.php';
 
-    class Manual{
-        public $connection; 
-        public function __construct(){
-            $con = new Connection();
-            $this->connection = $con->Connect();    
-        }
- 
-        public function getAll($table){ 
-            $sql = "SELECT * FROM $table";
-            $result = $this->connection->query($sql);
-            $result->fetch();
-            return $result; 
-        }
+class Manual
+{
+    protected $connection; 
 
-        function getSingleRow(){
-            $sql = "SELECT * FROM $this->table WHERE Id = :id";
-            $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(":id"=>$this->id)); 
-            $result = $stmt->fetch(); 
-            return $result;
-        }
+    public function __construct()
+    {
+        $newConnection = new Connection();
+        $this->connection = $newConnection->Connect();    
+    }
 
-    } 
+    public function getAll($table)
+    { 
+        $sqlQuery = "SELECT * FROM $table";
+        $result = $this->connection->query($sqlQuery);
+        $result->fetch();
+        return $result; 
+    }
 
-?>
+    function getSingleRow()
+    {
+        $sqlQuery = "SELECT * FROM $this->table WHERE id = :id";
+        $stmt= $this->connection->prepare($sqlQuery);
+        $stmt->execute(array(":id" => $this->id)); 
+        $result = $stmt->fetch(); 
+        return $result;
+    }
+}

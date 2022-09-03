@@ -3,7 +3,7 @@
 
     class Home extends Manual
     {
-        public $table = 'Homes';
+        protected $table = 'Homes';
         public $id = '';
         public $name = ''; 
         public $city = '';  
@@ -12,7 +12,9 @@
         public $imgFolder = '';
         
 
-        public function __construct()
+        public function __construct (
+
+        )
         {
             parent::__construct(); //conexion 
         }
@@ -38,7 +40,7 @@
         }
  
 
-        public function EditHome()
+        public function editHome()
         {    
             $sql = "UPDATE Homes SET Name = :name, city = :city, price = :price WHERE id =:id";
             $stmt= $this->connection->prepare($sql); 
@@ -53,7 +55,7 @@
         }
 
 
-        public function DeleteHome()
+        public function deleteHome()
         {
             $sql = "DELETE FROM Homes WHERE id = :id";
             $stmt= $this->connection->prepare($sql);

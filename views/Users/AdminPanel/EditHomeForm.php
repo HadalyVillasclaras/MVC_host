@@ -1,7 +1,7 @@
 <section class="edit-hm-sect" >
     <form action="" method="POST" enctype="multipart/form-data">
         <legend><h3>Edit form</h3></legend>
-        <a class="close-btn" href="<?=BASE_URL;?>userscontroller/mypanel">X</a>
+        <a class="close-btn" href="<?=BASE_URL;?>usercontroller/mypanel">X</a>
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" value="<?=$data['name'];?>"><br>
         <label for="city">City:</label>
@@ -17,6 +17,3 @@
     </form>
 
 </section>
-
-
-  

@@ -79,7 +79,7 @@
 
         public function checkOut(){
             if(!isLoggedIn()){
-                header("Location: " . BASE_URL . 'userscontroller/login');
+                header("Location: " . BASE_URL . 'usercontroller/login');
             }
    
 

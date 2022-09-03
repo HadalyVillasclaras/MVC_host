@@ -1,6 +1,5 @@
 <section class="submit-hm-sect">
- 
-    <form action="<?=BASE_URL . 'homescontroller/submitHome' ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?=BASE_URL . 'homecontroller/addHome' ?>" method="POST" enctype="multipart/form-data">
         <legend><h3>Submit form</h3></legend>
         <label for="name">Name:</label>
         <input type="text" name="name" id="name"><br>

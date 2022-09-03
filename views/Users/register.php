@@ -1,5 +1,5 @@
 <section class="register-sect">
-    <form action="<?=BASE_URL?>userscontroller/register" method="POST">
+    <form action="<?=BASE_URL?>usercontroller/register" method="POST">
         <legend><h3>Register form</h3></legend>
         <label for="name"></label>
         <input type="text" name="name" id="name" placeholder="Name"><br>
@@ -25,10 +25,5 @@
         </span>
 
         <input class="btn" type="submit" id="register" name="register" value="Register" >
-
-
     </form>
-
-
 </section>
-

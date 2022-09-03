@@ -1,7 +1,5 @@
 <section class="admin-homes">
     <h4>Reservation management</h4>
-     
-
     <table>
         <tr>
             <th>Home Id</th>
@@ -10,7 +8,6 @@
             <th>Checkout</th>
             <th>Guests</th>
             <th>Total cost</th>
-
         </tr>
 
         <?php foreach($data as $reservation): ?> 
@@ -21,12 +18,7 @@
                 <td><p><?=$reservation['end_date']?></p></td> 
                 <td><p><?=$reservation['guests']?></p></td> 
                 <td><p><?=$reservation['cost']?> €</p></td> 
-
-
-               
-            
             </tr>
-                
         <?php endforeach; ?> 
         
     </table>

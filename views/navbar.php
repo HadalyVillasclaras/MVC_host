@@ -6,15 +6,15 @@
         <ul class="logs" id="navbar-menu">
             <li class="navbar-li" >
                 <?php if(isset($_SESSION['email'])) : ?>
-                    <a href="<?=BASE_URL;?>userscontroller/logout">Log out</a>
+                    <a href="<?=BASE_URL;?>usercontroller/logout">Log out</a>
                 <?php else : ?>
-                    <a href="<?=BASE_URL;?>userscontroller/login">Login</a>
+                    <a href="<?=BASE_URL;?>usercontroller/login">Login</a>
                 <?php endif; ?>
             </li>
-            <li class="navbar-li"><a href="<?=BASE_URL;?>homescontroller/allhomes">Destinations</a></li> 
-            <li class="navbar-li"><a href="<?=BASE_URL;?>userscontroller/register">Register</a></li> 
+            <li class="navbar-li"><a href="<?=BASE_URL;?>homecontroller/allhomes">Destinations</a></li> 
+            <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/register">Register</a></li> 
 
-            <li class="navbar-li"><a href="<?=BASE_URL;?>userscontroller/mypanel">My Panel</a></li> 
+            <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/mypanel">My Panel</a></li> 
         </ul> 
     </ul>
 </nav> 

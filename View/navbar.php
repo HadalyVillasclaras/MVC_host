@@ -1,5 +1,4 @@
-<nav>
-    
+<nav>  
     <ul class="menu" >
         <li class="logo"><a href="<?=BASE_URL;?>"><img src="<?=BASE_URL;?>assets/img/kodu_logo.png" alt=""></a></li>
         <button id="toggle-menu" class="btn">Menu</button>
@@ -13,7 +12,6 @@
             </li>
             <li class="navbar-li"><a href="<?=BASE_URL;?>homecontroller/allhomes">Destinations</a></li> 
             <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/register">Register</a></li> 
-
             <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/mypanel">My Panel</a></li> 
         </ul> 
     </ul>

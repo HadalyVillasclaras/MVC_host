@@ -1,11 +1,5 @@
-       
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     
-    <script src="<?=BASE_URL;?>assets/js/main.js"></script> 
-      
-      
-      
-      
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="<?=BASE_URL;?>assets/js/main.js"></script> 
       
        <footer> 
             <section class="footer-sect-newslttr"> 
@@ -14,7 +8,6 @@
                     <h4>Stay in tune and get special offers</h4>
                     <input type="email" placeholder="Please, enter your email">
                 </form>
-
             </section>
             
             <section class="footer-sect-cls" >
@@ -44,13 +37,7 @@
                         <li><a href="#">Register</a></li>
                     </ul>
                 </article>
-
             </section>
-            
-            
- 
-        
         </footer>
-
     </body>
 </html>

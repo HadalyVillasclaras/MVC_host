@@ -1,13 +1,16 @@
 <?php
 
-class UsersController extends Controller{
-    public function __construct(){
+class UsersController extends Controller
+{
+    public function __construct()
+    {
         $this->userModel = $this->model('User');
         $this->homeModel = $this->model('Home');
-        $this->bookingModel = $this->model('Bookings');
+        $this->reservationModel = $this->model('Reservation');
     }
     
-    public function login(){
+    public function login()
+    {
         $data = [
             'email' => '',
             'password' => '',
@@ -15,11 +18,14 @@ class UsersController extends Controller{
             'passError' => ''
         ];
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
+
+            var_dump($_POST);
        
-            if(isset($_POST['login'])){
+            if (isset($_POST['login']))
+            {
                 $data = [
                     'email' => trim($_POST['email']),
                     'password' => trim($_POST['password']),
@@ -27,7 +33,8 @@ class UsersController extends Controller{
                     'passError' => ''
                 ];
 
-                if (empty($data['email'])) {
+                if (empty($data['email'])) 
+                {
                     $data['emailError'] = 'Please, enter an email';
                 }
      
@@ -36,15 +43,16 @@ class UsersController extends Controller{
                 }
     
                 //Login
-                if (empty($data['emailError']) && empty($data['passError'])) {
+                if (empty($data['emailError']) && empty($data['passError'])) 
+                {
                     $loggedUser = $this->userModel->login($data['email'], $data['password']);
-    
+                    var_dump($loggedUser);
                     if ($loggedUser) {
                         echo "loggeado";
                         $this->createSession($loggedUser);
                     } else {
                         $data['passError'] = 'Password or username is incorrect. Please try again.';
-                        $this->view('users/login', $data);
+                        $this->view('user/login', $data);
                     }
                 }
             }
@@ -151,33 +159,34 @@ class UsersController extends Controller{
     }
 
     public function myPanel(){
-        if(!isLoggedIn()){
-            header("Location: " . BASE_URL . 'userscontroller/login');
-        }
+        // if(!isLoggedIn()){
+        //     header("Location: " . BASE_URL . 'userscontroller/login');
+        // }
 
         $userId = $_SESSION['user_id']; 
 
         $this->userModel->id  = $userId; 
-        $this->bookingModel->userId  =  $userId; 
+        $this->reservationModel->userId  =  $userId; 
 
         $role = $this->userModel->checkRole();
 
-        if($role['Role'] == 'Admin'){
+        if($role['role'] == 'Admin'){
             $homes = $this->homeModel->getAll('Homes');   
+         
             $this->view('Admin/HomesAdmin', $homes); 
 
-            $bookings = $this->bookingModel->getAll('Bookings');   
+            $reservations = $this->reservationModel->getAll('Reservations');   
  
 
-            $this->view('Admin/BookingAdmin', $bookings); 
+            $this->view('Admin/ReservationAdmin', $reservations); 
 
-        }elseif ($role['Role'] == 'Guest') { 
+        }elseif ($role['role'] == 'Guest') { 
             $userInfo = $this->userModel->findUserById();
             $this->view('Guest/index', $userInfo); 
             
-            $userBookings = $this->bookingModel->findBookingByUserId();
+            $userReservations = $this->reservationModel->findReservationByUserId();
 
-            $this->view('Guest/mybookings', $userBookings); 
+            $this->view('Guest/myreservations', $userReservations); 
 
         } 
         
@@ -190,11 +199,13 @@ class UsersController extends Controller{
 
     public function createSession($user){ 
         require_once '../libraries/session_helper.php';
-        $_SESSION['email'] = $user['Email'];
-        $_SESSION['name'] = $user['Name'];
-        $_SESSION['user_id'] = $user['Id']; 
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['name'] = $user['first_name'];
+        $_SESSION['user_id'] = $user['id']; 
 
-        header('location: ' . BASE_URL);
+        echo "eeeeeeeeeeeeeeeeeeecreateSSession()";
+        var_dump($_SESSION);
+        // header('location: ' . BASE_URL);
     }
     
     public function logout(){
@@ -202,11 +213,9 @@ class UsersController extends Controller{
         unset($_SESSION['name']);
         unset($_SESSION['user_id']);
         session_destroy();
-        header('location: ' . BASE_URL);
+        // header('location: ' . BASE_URL);
 
 
     }
 
-} 
-
-?>
+}

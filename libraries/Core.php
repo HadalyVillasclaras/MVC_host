@@ -1,6 +1,7 @@
 <?php
 
-    class Core {
+    class Core 
+    {
         protected $currentController = 'IndexController';
         protected $currentMethod = 'index';
         protected $params = []; 

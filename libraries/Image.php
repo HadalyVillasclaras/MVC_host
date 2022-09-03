@@ -62,11 +62,5 @@
             $homeName = preg_replace('/\s+/', '_', strtolower($homeName));
             return $homeName;
         }
-
-
-
-
     }
-
-
 ?>

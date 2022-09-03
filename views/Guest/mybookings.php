@@ -10,14 +10,14 @@
             <th>Total cost</th>
 
         </tr> 
-        <?php foreach($data as $booking): ?> 
+        <?php foreach($data as $reservation): ?> 
             <tr>
-                <td><p><?=$booking['User_id']?></p></td> 
-                <td><p><?=$booking['Home_id']?></p></td> 
-                <td><p><?=$booking['Start_date']?></p></td> 
-                <td><p><?=$booking['End_date']?></p></td> 
-                <td><p><?=$booking['Guests']?></p></td> 
-                <td><p><?=$booking['Cost']?> €</p></td> 
+                <td><p><?=$reservation['user_id']?></p></td> 
+                <td><p><?=$reservation['home_id']?></p></td> 
+                <td><p><?=$reservation['start_date']?></p></td> 
+                <td><p><?=$reservation['end_date']?></p></td> 
+                <td><p><?=$reservation['guests']?></p></td> 
+                <td><p><?=$reservation['cost']?> €</p></td> 
 
  
             </tr>

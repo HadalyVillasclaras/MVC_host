@@ -30,7 +30,7 @@
             </p>
         </div>
         <div>  
-            <form class="booking-form" action="<?=BASE_URL . 'bookingscontroller/checkAvailability?id=' . $data['homeId']?>" method="POST">
+            <form class="booking-form" action="<?=BASE_URL . 'reservationcontroller/checkAvailability?id=' . $data['homeId']?>" method="POST">
                  <h3>Check availability </h3>
             
                 <label for="startDate"></label>
@@ -61,7 +61,7 @@
                         <p>Total cost: <?=$data['Price'];?>€ x <?=$data['Nights'];?> nights = <?=$data['totalCost'];?>€</p>
                     </div>
 
-                    <a class="btn" href="<?=BASE_URL . 'bookingscontroller/checkout?id=' . $data['homeId'] . '&checkin=' .  $data['startDate'] . '&checkout=' .  $data['endDate'] . '&guests=' .  $data['guests']?>">Book it!</a>
+                    <a class="btn" href="<?=BASE_URL . 'reservationcontroller/checkout?id=' . $data['homeId'] . '&checkin=' .  $data['startDate'] . '&checkout=' .  $data['endDate'] . '&guests=' .  $data['guests']?>">Book it!</a>
                 <?php else: ?> 
                     <input class="btn" type="submit" name="check-availability" value="Check availability"><br>
                 <?php endif; ?> 

@@ -1,22 +1,22 @@
 <section class="reservation-sect">
     <h3>Reservation details</h3>
     <article>
-        <h4><?=$data['Name'];?>, <?=$data['City'];?></h4>
-        <h4><?=$data['startDate'];?> - <?=$data['endDate'];?></h4>
+        <h4><?=$data['name'];?>, <?=$data['city'];?></h4>
+        <h4><?=$data['start_date'];?> - <?=$data['end_date'];?></h4>
     </article>
     <hr>
     <article>
         <div class="reserv-prices" >
-            <p>Price: <?=$data['Price'];?> €</p>
-            <p>Nights: <?=$data['Nights'];?></p>
-            <p>Guests: <?=$data['Guests'];?></p>
-            <p>Total cost: <?=$data['totalCost'];?>€</p>
+            <p>Price: <?=$data['price'];?> €</p>
+            <p>Nights: <?=$data['nights'];?></p>
+            <p>Guests: <?=$data['guests'];?></p>
+            <p>Total cost: <?=$data['total_cost'];?>€</p>
             <h4>Thank you for your reservation!</h4>
  
 
         </div>
 
-        <img src="<?=BASE_URL . 'assets/img/' . $data['ImageFolder'] . '/' . $data['ImageName'];?>" alt="">
+        <img src="<?=BASE_URL . 'assets/img/' . $data['image_folder'] . '/' . $data['image_name'];?>" alt="">
 
     </article>
 

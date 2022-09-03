@@ -18,11 +18,11 @@
             $this->homeModel->id = $id;
             $home = $this->homeModel->getSingleRow();
             $data = [ 
-                'homeId' => $home['Id'],
-                'Name' => $home['Name'],
-                'Price' => $home['Price'],
-                'ImageFolder' => $home['ImageFolder'],
-                'ImageName' => $home['ImageName'],
+                'homeId' => $home['id'],
+                'Name' => $home['name'],
+                'Price' => $home['price'],
+                'ImageFolder' => $home['image_folder'],
+                'ImageName' => $home['image_name'],
                 'startDate' => '',
                 'endDate' => '',
                 'guests' => '',

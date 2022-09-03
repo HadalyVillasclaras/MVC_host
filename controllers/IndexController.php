@@ -5,6 +5,7 @@
         private $table = 'Homes';
 
         public function index(){ 
+            var_dump($_SESSION);
             $this->view('Index/main');
             $this->model('Home'); 
             $home = new Home();

@@ -5,6 +5,7 @@ class Image
 {  
     public $img;
     public $homeName;
+    public $extensionMsg;
     
     public function checkImage($img, $name){ 
 
@@ -14,7 +15,9 @@ class Image
         $fileError = $img['error'];
         $fileType = $img['type'];
 
-        //check extension
+        //Extension
+
+        $this->checkExtension($fileName);
         $fileExt = explode('.', $fileName);
         $fileExtCheck = strtolower(end($fileExt));
         $allowed = array('jpg', 'jpeg', 'png');
@@ -23,7 +26,7 @@ class Image
                 if($fileError === 0){
                     if($fileSize < 10000000){
                         $fileNameNew = uniqid('', true).'.'.$fileExtCheck;
-                        $folderPath = $this->imgFolderPath($name) . '/'; 
+                        $folderPath = $this->imgFolderNamePath($name) . '/'; 
 
                         $filePath = $folderPath  . $fileNameNew;
                         move_uploaded_file($fileTmpName, $filePath);
@@ -46,8 +49,8 @@ class Image
     }
 
 
-    public function imgFolderPath($name){ 
-        $homeName = $this->imgFolderName($name); 
+    public function imgFolderNamePath($name){ 
+        $homeName = $this->createFolderName($name); 
         $folderPath = 'assets/img/' . $homeName;
 
         if(file_exists($folderPath) || is_dir($folderPath)){ 
@@ -59,8 +62,25 @@ class Image
         } 
     }
 
-    public function imgFolderName($homeName){
-        $homeName = preg_replace('/\s+/', '_', strtolower($homeName));
-        return $homeName;
+    public function checkExtension($fileName){
+        $allowedFormats = [
+            'jpg',
+            'jpge',
+            'png'
+        ];
+        $extension = explode('.', $fileName);
+        $formattedExtension = strtolower(end($extension));
+
+        if (in_array($formattedExtension, $allowedFormats)) {
+            return true;
+        } else {
+            $this->extensionMsg = "Please, upload an image of any of these formats: jpg, jpeg or png.";
+            return false;
+        }
+    }
+
+    public function createFolderName($newHomeName){
+        $imgFolderName = preg_replace('/\s+/', '_', strtolower($newHomeName));
+        return $imgFolderName;
     }
 }

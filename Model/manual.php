@@ -20,7 +20,7 @@ class Manual
         return $result; 
     }
 
-    function getSingleRow()
+    public function getSingleRow()
     {
         $sqlQuery = "SELECT * FROM $this->table WHERE id = :id";
         $stmt= $this->connection->prepare($sqlQuery);

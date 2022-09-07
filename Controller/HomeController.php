@@ -1,6 +1,5 @@
 <?php
 
-
 class HomeController extends Controller
 {     
     private $homeModel;
@@ -50,7 +49,6 @@ class HomeController extends Controller
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
-        $imageCheck = new Image();
 
         $data = [
             'imgPath' => '',
@@ -60,17 +58,17 @@ class HomeController extends Controller
             'submitFeedback' => ''
         ];
 
+        $imageCheck = new Image();
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
 
             if (isset($_POST['submit'])) { 
-
                 $name = trim($_POST['name']);
                 $city = trim($_POST['city']);
                 $price = trim($_POST['price']);
                 $img = $_FILES['image'];
-                $imgFolder = $imageCheck->imgFolderName($name);
+                $imgFolderName = $imageCheck->createFolderName($name);
 
                 if (empty($name)) {
                     $data['nameError'] = 'Field must be filled';
@@ -92,7 +90,7 @@ class HomeController extends Controller
                     $imgName == true
                     ){
                         $this->homeModel->img = $imgName;  
-                        $this->homeModel->imgFolder = $imgFolder;  
+                        $this->homeModel->imgFolderName = $imgFolderName;  
                         $this->homeModel->name = $name;
                         $this->homeModel->city = $city;
                         $this->homeModel->price = $price; 

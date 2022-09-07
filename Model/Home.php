@@ -11,24 +11,10 @@
         protected $img;
         protected $imgFolder;
         
-
-        public function __construct (
-            ?int $id = null,
-            ?string $name = null,
-            ?string $city = null, 
-            ?int $price = null, 
-            ?string $img = null,
-            ?string $imgFolder = null
-        )
+        public function __construct ()
         {
             parent::__construct(); //conexion 
            
-            $this->id = $id;
-            $this->name = $name;
-            $this->city = $city;
-            $this->price = $price;
-            $this->img = $img;
-            $this->imgFolder = $imgFolder;
         }
         
 

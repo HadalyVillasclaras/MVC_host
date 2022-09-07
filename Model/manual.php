@@ -12,9 +12,9 @@ class Manual
         $this->connection = $newConnection->Connect();    
     }
 
-    public function getAll($table)
+    public function getAll()
     { 
-        $sqlQuery = "SELECT * FROM $table";
+        $sqlQuery = "SELECT * FROM $this->table";
         $result = $this->connection->query($sqlQuery);
         $result->fetch();
         return $result; 

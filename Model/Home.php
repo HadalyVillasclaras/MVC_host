@@ -1,7 +1,4 @@
 <?php
-
-
-
 require_once 'manual.php';
 
 class Home extends Manual

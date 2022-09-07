@@ -1,8 +1,8 @@
 <?php
 
+
 class HomeController extends Controller
 {     
-    private $table = 'Homes';
     private $homeModel;
     
     public function __construct()
@@ -10,16 +10,17 @@ class HomeController extends Controller
         $this->homeModel = $this->model('Home');
     }
     
-    public function getAllHomes()
+    public function getAllHomes() //Destinations page
     { 
-        $allHomes = $this->homeModel->getAll($this->table);   
+        $allHomes = $this->homeModel->getAll();   
         $this->view('Home/homes', $allHomes);  
     }
 
 
-    public function homeSinglePage() //single page home 
+    public function homeSinglePage() //Single page home 
     { 
         $this->homeModel->id = $_GET['id'];
+
         $home = $this->homeModel->getSingleRow();
 
         $data = [ 
@@ -42,14 +43,14 @@ class HomeController extends Controller
     public function addHome()
     { 
         require_once '../libraries/session.php';
+        require_once '../libraries/Image.php';
 
         $isLoggedIn = new Session();
         if (!$isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
-        require_once '../libraries/image.php';
-        $this->imageClass = new Image();
+        $imageCheck = new Image();
 
         $data = [
             'imgPath' => '',
@@ -69,7 +70,7 @@ class HomeController extends Controller
                 $city = trim($_POST['city']);
                 $price = trim($_POST['price']);
                 $img = $_FILES['image'];
-                $imgFolder = $this->imageClass->imgFolderName($name);
+                $imgFolder = $imageCheck->imgFolderName($name);
 
                 if (empty($name)) {
                     $data['nameError'] = 'Field must be filled';
@@ -81,7 +82,7 @@ class HomeController extends Controller
                     $data['imgError'] = 'Field must be filled';
                 }
 
-                $imgName = $this->imageClass->checkImage($img, $name);  //meter error en img msg
+                $imgName = $imageCheck->checkImage($img, $name);  //meter error en img msg
 
                 //Check and submit Home
                 if (
@@ -114,7 +115,7 @@ class HomeController extends Controller
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
-        $homes = $this->homeModel->getAll($this->table);   
+        $homes = $this->homeModel->getAll();   
 
         $this->view('Users/AdminPanel/Homes', $homes); 
 
@@ -157,7 +158,7 @@ class HomeController extends Controller
         }
 
         //background view
-        $homes = $this->homeModel->getAll($this->table);   
+        $homes = $this->homeModel->getAll();   
         $this->view('Users/AdminPanel/Homes', $homes); 
 
         if (isset($_GET['delete'])) {

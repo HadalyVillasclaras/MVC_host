@@ -2,7 +2,7 @@
 
 require_once("config.php");
 
-Class Connection{
+class Connection{
     private $connection;
 
     public function Connect()
@@ -14,7 +14,7 @@ Class Connection{
 
             return $this->connection;
         }catch(PDOException $e){
-            echo "Error: " . $e->getMessage();
+            echo "Error de conexión: " . $e->getMessage();
         }
     } 
 }

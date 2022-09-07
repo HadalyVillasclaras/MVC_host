@@ -89,16 +89,12 @@ class HomeController extends Controller
                     $imgName == true
                     ){
                         
-                    $newHome = new Home(
-                        $id = null,
-                        $name,
-                        $city,
-                        $price,
-                        $imgName,
-                        $imgFolder,
-                    );
-
-                    $newHome->addHome(); 
+                    $this->homeModel->name = $name;
+                    $this->homeModel->city = $city;
+                    $this->homeModel->price = $price; 
+                    $this->homeModel->img = $img;  
+                    $this->homeModel->imgFolder = $imgFolder;  
+                    $this->homeModel->addHome(); 
                     
                 }else{
                     $this->view('Users/AdminPanel/AddHomeForm', $data);
@@ -122,8 +118,8 @@ class HomeController extends Controller
         $this->view('Users/AdminPanel/Homes', $homes); 
 
         if(isset($_GET['edit'])){
-            $home = new Home($_GET['edit']);
-            $homeToUpdate = $home->getSingleRow();   
+            $this->homeModel->id = $_GET['edit'];
+            $homeToUpdate = $this->homeModel->getSingleRow();   
 
             $this->view('Users/AdminPanel/updateHomeForm', $homeToUpdate); 
             
@@ -136,23 +132,12 @@ class HomeController extends Controller
                     $price=$_POST['price'];
                     $img=$_FILES['image']; 
 
-                    $home = new Home(
-                        $_GET['edit'],
-                        $name,
-                        $city,
-                        $price,
-                        $img,
-                        $imgFolder = null
+                    $this->homeModel->name = $name;
+                    $this->homeModel->city = $city;
+                    $this->homeModel->price = $price; 
+                    $this->homeModel->img = $img;  
 
-                    );
-
-
-                    // $this->homeModel->name = $name;
-                    // $this->homeModel->city = $city;
-                    // $this->homeModel->price = $price; 
-                    // $this->homeModel->img = $img;  
-
-                    $home->updateHome(); 
+                    $this->homeModel->updateHome(); 
 
                     header('Location: '.$_SERVER['HTTP_REFERER']);
                     $this->view('Users/AdminPanel/updateHomeForm', $homeToUpdate); 

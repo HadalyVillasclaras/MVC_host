@@ -4,17 +4,16 @@
     class Home extends Manual
     {
         protected $table = 'Homes';
-        protected $id;
-        protected $name;
-        protected $city;
-        protected $price; 
-        protected $img;
-        protected $imgFolder;
+        public $id;
+        public $name;
+        public $city;
+        public $price; 
+        public $img;
+        public $imgFolder;
         
         public function __construct ()
         {
             parent::__construct(); //conexion 
-           
         }
         
 

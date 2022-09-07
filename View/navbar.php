@@ -10,7 +10,7 @@
                     <a href="<?=BASE_URL;?>usercontroller/login">Login</a>
                 <?php endif; ?>
             </li>
-            <li class="navbar-li"><a href="<?=BASE_URL;?>homecontroller/allhomes">Destinations</a></li> 
+            <li class="navbar-li"><a href="<?=BASE_URL;?>homecontroller/getallhomes">Destinations</a></li> 
             <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/register">Register</a></li> 
             <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/mypanel">My Panel</a></li> 
         </ul> 

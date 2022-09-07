@@ -1,5 +1,10 @@
 <?php
 
+namespace config;
+
+use PDO;
+use PDOException;
+
 require_once("config.php");
 
 class Connection{

@@ -1,4 +1,9 @@
 <?php
+namespace Controller\IndexController;
+
+use Controller\Controller;
+use Model\Home;
+
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);

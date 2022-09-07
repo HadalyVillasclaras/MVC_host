@@ -1,5 +1,9 @@
 <?php
-require_once '../config/connection.php';
+
+namespace Model;
+
+use config\Connection;
+
 
 class Manual
 {

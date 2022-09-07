@@ -1,8 +1,14 @@
 <?php
 
+namespace Controller\HomeController;
+
+use Controller\Controller;
+use libraries\Image;
+use libraries\Session;
+
 class HomeController extends Controller
 {     
-    public $table = 'Homes';
+    private $table = 'Homes';
     private $homeModel;
     
     public function __construct()
@@ -19,8 +25,8 @@ class HomeController extends Controller
 
     public function homeSinglePage() //single page home 
     { 
-        $home = new Home($_GET['id']);
-        $home = $home->getSingleRow();
+        $this->homeModel->id = $_GET['id'];
+        $home = $this->homeModel->getSingleRow();
 
         $data = [ 
             'homeId' => $home['id'],
@@ -88,13 +94,12 @@ class HomeController extends Controller
                     empty($data['imgError']) &&
                     $imgName == true
                     ){
-                        
-                    $this->homeModel->name = $name;
-                    $this->homeModel->city = $city;
-                    $this->homeModel->price = $price; 
-                    $this->homeModel->img = $img;  
-                    $this->homeModel->imgFolder = $imgFolder;  
-                    $this->homeModel->addHome(); 
+                        $this->homeModel->img = $imgName;  
+                        $this->homeModel->imgFolder = $imgFolder;  
+                        $this->homeModel->name = $name;
+                        $this->homeModel->city = $city;
+                        $this->homeModel->price = $price; 
+                        $this->homeModel->addHome(); 
                     
                 }else{
                     $this->view('Users/AdminPanel/AddHomeForm', $data);

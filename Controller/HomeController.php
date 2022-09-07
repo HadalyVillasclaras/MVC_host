@@ -1,11 +1,5 @@
 <?php
 
-namespace Controller\HomeController;
-
-use Controller\Controller;
-use libraries\Image;
-use libraries\Session;
-
 class HomeController extends Controller
 {     
     private $table = 'Homes';
@@ -47,6 +41,8 @@ class HomeController extends Controller
 
     public function addHome()
     { 
+        require_once '../libraries/session.php';
+
         $isLoggedIn = new Session();
         if (!$isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');

@@ -1,7 +1,5 @@
 <?php
 
-namespace Model;
-
 require_once 'manual.php';
 
 class Reservation extends Manual

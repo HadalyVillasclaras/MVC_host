@@ -1,8 +1,5 @@
 <?php
 
-namespace Controller\UserController;
-
-use Controller\Controller;
 
 class UserController extends Controller
 {

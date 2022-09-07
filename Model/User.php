@@ -1,6 +1,5 @@
 <?php
 
-namespace Model;
 
 
 require_once 'manual.php';

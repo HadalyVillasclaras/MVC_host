@@ -1,5 +1,5 @@
 <?php
-namespace libraries;
+
 
     session_start();
 

@@ -1,9 +1,5 @@
 <?php
 
-namespace Controller\ReservationsController;
-
-use Controller\Controller;
-use libraries\Session;
 
 class ReservationsController extends Controller{ 
     public function __construct(){

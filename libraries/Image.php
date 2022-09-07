@@ -1,6 +1,5 @@
 <?php
 
-namespace libraries;
 
 class Image 
 {  

@@ -78,9 +78,11 @@
  
 
         public function checkOut(){
-            if(!isLoggedIn()){
-                header("Location: " . BASE_URL . 'usercontroller/login');
-            }
+            $isLoggedIn = new Session();
+
+        if (!$isLoggedIn->isLoggedIn()) {
+            header("Location: " . BASE_URL . 'usercontroller/login');
+        }
    
 
             $this->homeModel->id = $_GET['id'];

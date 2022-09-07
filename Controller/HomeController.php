@@ -3,6 +3,7 @@
 class HomeController extends Controller
 {     
     public $table = 'Homes';
+    private $homeModel;
     
     public function __construct()
     {
@@ -16,12 +17,10 @@ class HomeController extends Controller
     }
 
 
-    public function home() //single page home 
+    public function homeSinglePage() //single page home 
     { 
-        $id = $_GET['id'];
-        $this->homeModel->id = $id;
-
-        $home = $this->homeModel->getSingleRow();
+        $home = new Home($_GET['id']);
+        $home = $home->getSingleRow();
 
         $data = [ 
             'homeId' => $home['id'],
@@ -42,7 +41,8 @@ class HomeController extends Controller
 
     public function addHome()
     { 
-        if (!isLoggedIn()) {
+        $isLoggedIn = new Session();
+        if (!$isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
@@ -89,13 +89,16 @@ class HomeController extends Controller
                     $imgName == true
                     ){
                         
-                    $this->homeModel->img = $imgName; 
-                    $this->homeModel->imgFolder = $imgFolder; 
-                    $this->homeModel->name = $name;
-                    $this->homeModel->city = $city;
-                    $this->homeModel->price = $price; 
+                    $newHome = new Home(
+                        $id = null,
+                        $name,
+                        $city,
+                        $price,
+                        $imgName,
+                        $imgFolder,
+                    );
 
-                    $this->homeModel->InsertHome(); 
+                    $newHome->addHome(); 
                     
                 }else{
                     $this->view('Users/AdminPanel/AddHomeForm', $data);
@@ -106,9 +109,11 @@ class HomeController extends Controller
     }
 
 
-    public function editHome()
+    public function updateHome()
     { 
-        if (!isLoggedIn()) {
+        $isLoggedIn = new Session();
+
+        if (!$isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
@@ -117,30 +122,40 @@ class HomeController extends Controller
         $this->view('Users/AdminPanel/Homes', $homes); 
 
         if(isset($_GET['edit'])){
-            $this->homeModel->id = $_GET['edit'];
+            $home = new Home($_GET['edit']);
+            $homeToUpdate = $home->getSingleRow();   
 
-            $homeToEdit = $this->homeModel->getSingleRow();  
-
-            $this->view('Users/AdminPanel/EditHomeForm', $homeToEdit); 
-
+            $this->view('Users/AdminPanel/updateHomeForm', $homeToUpdate); 
+            
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
                 
-                if(isset($_POST['submit'])){
+                if (isset($_POST['submit'])){
                     $name=$_POST['name'];
                     $city=$_POST['city'];
                     $price=$_POST['price'];
                     $img=$_FILES['image']; 
 
-                    $this->homeModel->name = $name;
-                    $this->homeModel->city = $city;
-                    $this->homeModel->price = $price; 
-                    $this->homeModel->img = $img;  
+                    $home = new Home(
+                        $_GET['edit'],
+                        $name,
+                        $city,
+                        $price,
+                        $img,
+                        $imgFolder = null
 
-                    $this->homeModel->editHome(); 
+                    );
+
+
+                    // $this->homeModel->name = $name;
+                    // $this->homeModel->city = $city;
+                    // $this->homeModel->price = $price; 
+                    // $this->homeModel->img = $img;  
+
+                    $home->updateHome(); 
 
                     header('Location: '.$_SERVER['HTTP_REFERER']);
-                    $this->view('Users/AdminPanel/EditHomeForm', $homeToEdit); 
+                    $this->view('Users/AdminPanel/updateHomeForm', $homeToUpdate); 
                 } 
             }
         }
@@ -149,7 +164,9 @@ class HomeController extends Controller
     public function deleteHome()
     { 
         $deleteConfirmation = false;
-        if (!isLoggedIn()) {
+        $isLoggedIn = new Session();
+
+        if (!$isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 

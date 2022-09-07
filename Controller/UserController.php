@@ -197,7 +197,7 @@ class UserController extends Controller
 
 
     public function createSession($user){ 
-        require_once '../libraries/session_helper.php';
+        require_once '../libraries/session.php';
         $_SESSION['email'] = $user['email'];
         $_SESSION['name'] = $user['first_name'];
         $_SESSION['user_id'] = $user['id']; 

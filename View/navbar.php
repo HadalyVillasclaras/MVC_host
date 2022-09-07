@@ -15,5 +15,4 @@
             <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/mypanel">My Panel</a></li> 
         </ul> 
     </ul>
-</nav> 
-
+</nav>

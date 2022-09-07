@@ -4,24 +4,36 @@
     class Home extends Manual
     {
         protected $table = 'Homes';
-        public $id = '';
-        public $name = ''; 
-        public $city = '';  
-        public $price = '';  
-        public $img = '';
-        public $imgFolder = '';
+        protected $id;
+        protected $name;
+        protected $city;
+        protected $price; 
+        protected $img;
+        protected $imgFolder;
         
 
         public function __construct (
-
+            ?int $id = null,
+            ?string $name = null,
+            ?string $city = null, 
+            ?int $price = null, 
+            ?string $img = null,
+            ?string $imgFolder = null
         )
         {
             parent::__construct(); //conexion 
+           
+            $this->id = $id;
+            $this->name = $name;
+            $this->city = $city;
+            $this->price = $price;
+            $this->img = $img;
+            $this->imgFolder = $imgFolder;
         }
         
 
         //Insert Home
-        public function InsertHome()
+        public function addHome()
         {
             if($this->img) {
                 $sql = "INSERT INTO Homes(name, city, price, image_name, image_folder) VALUES (:name, :city, :price, :img, :imgfolder);";
@@ -40,12 +52,12 @@
         }
  
 
-        public function editHome()
+        public function updateHome()
         {    
             $sql = "UPDATE Homes SET Name = :name, city = :city, price = :price WHERE id =:id";
             $stmt= $this->connection->prepare($sql); 
             
-            $result = $stmt->execute(array(
+            $stmt->execute(array(
                 ":id"=>$this->id, 
                 ":name"=>$this->name, 
                 ":city"=>$this->city, 

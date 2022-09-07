@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 require_once '../config/parameters.php'; 
 require_once '../controller/Controller.php';
 require_once '../libraries/Core.php';
-require_once '../libraries/session_helper.php';
+require_once '../libraries/session.php';
 require_once '../view/head.php';
 require_once '../view/navbar.php';
 

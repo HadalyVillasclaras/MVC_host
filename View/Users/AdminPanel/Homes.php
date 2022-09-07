@@ -19,7 +19,7 @@
                 <td><p><?=$home['city']?></p></td> 
                 <td><p><?=$home['price']?> €</p></td> 
                 <td>
-                    <a href="<?= BASE_URL . 'homecontroller/edithome?edit=' . $home['id']?>">Edit</a>
+                    <a href="<?= BASE_URL . 'homecontroller/updateHome?edit=' . $home['id']?>">Edit</a>
                     <a class="delete" href="<?= BASE_URL . 'homecontroller/deletehome?delete=' . $home['id']?>">Delete</a>
                 </td>
             

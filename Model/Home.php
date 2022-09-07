@@ -12,15 +12,11 @@
         public $imgFolder = '';
         
 
-        public function __construct (
-
-        )
+        public function __construct ()
         {
             parent::__construct(); //conexion 
         }
         
-
-        //Insert Home
         public function InsertHome()
         {
             if($this->img) {

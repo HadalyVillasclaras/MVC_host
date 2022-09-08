@@ -13,4 +13,12 @@ class Session
             return false;
         }
     }
+
+    public function logout(){
+        unset($_SESSION['email']);
+        unset($_SESSION['name']);
+        unset($_SESSION['user_id']);
+        session_destroy();
+        // header('location: ' . BASE_URL);
+    }
 }

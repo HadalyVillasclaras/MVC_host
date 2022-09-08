@@ -84,7 +84,7 @@ class UserController extends Controller
             //sanitize
             $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
        
-            if(isset($_POST['register'])){  
+            if (isset($_POST['register'])) {  
                 $data = [
                     'name' => trim($_POST['name']),
                     'surname' => trim($_POST['surname']),
@@ -103,17 +103,15 @@ class UserController extends Controller
                 //     $data['nameError'] = 'Name can only contain numer or letters';
                 // }
 
+                
                 //Validate email
-                if (empty($data['email'])){
-                    $data['emailError'] = 'Please, enter an email';
-                }elseif(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                    $data['emailError'] = 'Please, enter a correct email format';
-                }else{
-                    //check if email exists
-                    if($this->userModel->findUserEmail($data['email'])){
-                        $data['emailError'] = 'Email already exists!';
-                    }
+                $emailValidation = new Email($data['email']);
+                $errors = $emailValidation->validateEmail();
+                //check if email exists
+                if($this->userModel->findUserEmail($data['email'])){
+                    $data['emailError'] = 'Email already exists!';
                 }
+              
                 
 
                 //Validate password
@@ -183,8 +181,6 @@ class UserController extends Controller
 
             $this->view('Users/GuestPanel/Index', $data); 
         } 
-        
-
     }
 
 
@@ -202,14 +198,6 @@ class UserController extends Controller
         // header('location: ' . BASE_URL);
     }
     
-    public function logout(){
-        unset($_SESSION['email']);
-        unset($_SESSION['name']);
-        unset($_SESSION['user_id']);
-        session_destroy();
-        // header('location: ' . BASE_URL);
 
-
-    }
 
 }

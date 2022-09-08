@@ -11,7 +11,7 @@ class User extends Manual
     public $name; 
     public $surname;
     public $email;  
-    public $pass;  
+    public $password;  
     private $role = 'Guest';
 
     public function __construct()
@@ -37,15 +37,16 @@ class User extends Manual
 
     
 
-    public function register($data)
+    public function register()
     {
-        $sql = "INSERT INTO Users(first_name, last_name, email, password, role) VALUES (:name, :surname, :email, :pass, :role);";
+        $sql = "INSERT INTO Users(first_name, last_name, email, password, role) 
+                VALUES (:name, :surname, :email, :pass, :role);";
         $stmt= $this->connection->prepare($sql);
         $result = $stmt->execute(array(
-            ":name"=>$data['name'], 
-            ":surname"=>$data['surname'], 
-            ":email"=>$data['email'], 
-            ":pass"=>$data['password'],
+            ":name"=>$this->name, 
+            ":surname"=>$this->surname, 
+            ":email"=>$this->email, 
+            ":pass"=>$this->password,
             ":role"=>$this->role
         )); 
     

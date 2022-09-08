@@ -4,6 +4,7 @@ class Password
 {
     private $password;
     private $errors = [];
+
     public function __construct($password)
     {
         $this->password = $password;
@@ -30,5 +31,11 @@ class Password
             $this->errors['confirmPassword'] = 'Passwords do not match';
         }
         return $this->errors['confirmPassword'] ?? '';
+    }
+
+    public function passwordHash() {
+            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+            return $this->password;
+
     }
 } 

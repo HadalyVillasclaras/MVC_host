@@ -85,27 +85,29 @@ class UserController extends Controller
             //Validate email
             $emailValidation = new Email($data['email']);
             $errors['email'] = $emailValidation->validateEmail();
-            //check if email exists
-            // if($this->userModel->findUserEmail($data['email'])){
-            //     $errors['email'] = 'Email already exists!';
-            // }
+
+            if ($this->userModel->findUserEmail($data['email'])){
+                $errors['email'] = 'Email already exists!';
+            }
 
             //Validate password & confirm password
-            $passwordValidation =  new Password($data['password']);
-            $errors['password'] = $passwordValidation->validatePassword();
-            $errors['confirmPassword'] = $passwordValidation->validateConfirmPassword($data['confirmPassword']);
+            $password =  new Password($data['password']);
+            $errors['password'] = $password->validatePassword();
+            $errors['confirmPassword'] = $password->validateConfirmPassword($data['confirmPassword']);
 
-            
-            // var_dump(count($errors));
-            //$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-            //Register
             if (count($errors) === 0) {
-                $this->userModel->register($data);
-                $data['feedBack'] = "User registered.";
+                $this->userModel->name = $data['name'];
+                $this->userModel->surname = $data['surname'];
+                $this->userModel->email = $data['email'];
+                $this->userModel->password = $password->passwordHash();;
 
+
+                if ($this->userModel->register()) {
+                    $data['feedBack'] = "User registered.";
+                } else {
+                    $data['feedBack'] = "An error ocurred while registering. Pleas, try again later.";
+                } 
             }
-    
         }
         $this->view('Users/register', $data, $errors);  
     }

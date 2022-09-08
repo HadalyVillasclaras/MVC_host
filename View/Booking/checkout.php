@@ -16,7 +16,7 @@
 
         </div>
 
-        <img src="<?=BASE_URL . 'assets/img/' . $data['image_folder'] . '/' . $data['image_name'];?>" alt="">
+        <img src="<?=BASE_URL . 'assets/img/homes/' . $data['image_folder'] . '/' . $data['image_name'];?>" alt="">
 
     </article>
 

@@ -87,13 +87,14 @@ class HomeController extends Controller
                     empty($data['nameError']) && 
                     empty($data['cityError']) && 
                     empty($data['imgError']) &&
-                    $imgName == true
+                    $imgName
                     ){
                         $this->homeModel->img = $imgName;  
                         $this->homeModel->imgFolderName = $imgFolderName;  
                         $this->homeModel->name = $name;
                         $this->homeModel->city = $city;
                         $this->homeModel->price = $price; 
+                        
                         $this->homeModel->addHome(); 
                     
                 }else{

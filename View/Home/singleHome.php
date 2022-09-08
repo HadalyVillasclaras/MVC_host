@@ -9,7 +9,7 @@
              <h4>5 guests 2 bedrooms 5 beds 1 bath</h4>
         </div>
 
-        <img src="<?=BASE_URL . 'assets/img/' . $data['ImageFolder'] . '/' . $data['ImageName'];?>" alt="">
+        <img src="<?=BASE_URL . 'assets/img/homes/' . $data['ImageFolder'] . '/' . $data['ImageName'];?>" alt="">
     </article>
 
 <hr>

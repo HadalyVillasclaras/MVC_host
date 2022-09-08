@@ -14,7 +14,7 @@
 
         <?php while($home = $data->fetch()): ?> 
             <tr>
-                <td><img src="<?=BASE_URL . 'assets/img/' . $home['image_folder'] . '/' . $home['image_name'];?>"></td> 
+                <td><img src="<?=BASE_URL . 'assets/img/homes/' . $home['image_folder'] . '/' . $home['image_name'];?>"></td> 
                 <td><p><?=$home['name']?></p></td> 
                 <td><p><?=$home['city']?></p></td> 
                 <td><p><?=$home['price']?> €</p></td> 

@@ -12,6 +12,7 @@ class User extends Manual
     public $surname;
     public $email;  
     public $pass;  
+    private $role = 'Guest';
 
     public function __construct()
     {
@@ -38,9 +39,15 @@ class User extends Manual
 
     public function register($data)
     {
-        $sql = "INSERT INTO Users(first_name, last_name, email, password) VALUES (:name, :surname, :email, :pass);";
+        $sql = "INSERT INTO Users(first_name, last_name, email, password, role) VALUES (:name, :surname, :email, :pass, :role);";
         $stmt= $this->connection->prepare($sql);
-        $result = $stmt->execute(array(":name"=>$data['name'], ":surname"=>$data['surname'], ":email"=>$data['email'], ":pass"=>$data['password'])); 
+        $result = $stmt->execute(array(
+            ":name"=>$data['name'], 
+            ":surname"=>$data['surname'], 
+            ":email"=>$data['email'], 
+            ":pass"=>$data['password'],
+            ":role"=>$this->role
+        )); 
     
         if($result){ 
             return true;

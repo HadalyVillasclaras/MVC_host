@@ -1,6 +1,7 @@
 <?php
 require_once '../libraries/session.php';
-
+require_once '../libraries/Validations/Password.php';
+require_once '../libraries/Validations/Email.php';
 
 class UserController extends Controller
 {
@@ -68,93 +69,45 @@ class UserController extends Controller
         $this->view('Users/login', $data);  
     }
     
-    public function register(){ 
-        $data = [
-            'name' => '',
-            'surname' => '',
-            'email' => '',
-            'password' => '',
-            'confirmPassword' => '',
-            'emailError' => '',
-            'passError' => '',
-            'confirmPassError' => ''
-        ];
+    public function register(){
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            //sanitize
-            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
-       
-            if (isset($_POST['register'])) {  
-                $data = [
-                    'name' => trim($_POST['name']),
-                    'surname' => trim($_POST['surname']),
-                    'email' => trim($_POST['email']),
-                    'password' => trim($_POST['password']),
-                    'confirmPassword' => trim($_POST['confirmPassword']),
-                    'emailError' => '',
-                    'passError' => '',
-                    'confirmPassError' => ''
-                ];
+        $data = [];
+        
+        if (isset($_POST['register'])) {  
+            $data = [
+                'name' => trim($_POST['name']),
+                'surname' => trim($_POST['surname']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'confirmPassword' => trim($_POST['confirmPassword'])
+            ];
 
-                // $nameValidation = "/^[a-zA-Z]*$";
-                // if (empty($data['name'])){
-                //     $data['nameError'] = 'Pleas, enter  name';
-                // }elseif(!preg_match($emailValidation, $data['name'])) {
-                //     $data['nameError'] = 'Name can only contain numer or letters';
-                // }
+            //Validate email
+            $emailValidation = new Email($data['email']);
+            $errors['email'] = $emailValidation->validateEmail();
+            //check if email exists
+            // if($this->userModel->findUserEmail($data['email'])){
+            //     $errors['email'] = 'Email already exists!';
+            // }
 
-                
-                //Validate email
-                $emailValidation = new Email($data['email']);
-                $errors = $emailValidation->validateEmail();
-                //check if email exists
-                if($this->userModel->findUserEmail($data['email'])){
-                    $data['emailError'] = 'Email already exists!';
-                }
-              
-                
+            //Validate password & confirm password
+            $passwordValidation =  new Password($data['password']);
+            $errors['password'] = $passwordValidation->validatePassword();
+            $errors['confirmPassword'] = $passwordValidation->validateConfirmPassword($data['confirmPassword']);
 
-                //Validate password
-                $passValidation = "/^(.{0,7}|[^a-z]*|[^\d]*)$/i";
-                if(empty($data['password'])){
-                    $data['passError'] = 'Please enter a password';
-                }elseif(strlen($data['password']) < 8){
-                    $data['passError'] = 'Password must be at least 8 characters';
-                }elseif(preg_match($passValidation, $data['password'])) {
-                    $data['passError'] = 'Password must have at least one numeric value';
-                }
+            
+            // var_dump(count($errors));
+            //$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                //Validate confirm password
-                if(empty($data['confirmPassword'])){
-                    $data['confirmPassError'] = 'Please repeat your password';
-                }else{
-                    if($data['password'] != $data['confirmPassword']){
-                        $data['confirmPassError'] = 'Passwords do not match';
-                    }
-                }
+            //Register
+            if (count($errors) === 0) {
+                $this->userModel->register($data);
+                $data['feedBack'] = "User registered.";
 
-                //Register
-                if(empty($data['passError']) && empty($data['confirmPassError']) && empty($data['emailError'])){
-                    //hassh password
-                    echo $data['passError'], $data['confirmPassError'], $data['emailError'];
-                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-                    $registedUser = $this->userModel->register($data);
-                    if($registedUser){
-                        //header('location: ' . BASE_URL . '/usercontroller/login' );
-
-                    }else{
-                        die('Something went wrong');
-                    }
-
-                }else{
-                    //dejar valores en los inputs hasta que se introduzcan correctamente.
-                }
-       
             }
+    
         }
-
-        $this->view('Users/register', $data);  
+        $this->view('Users/register', $data, $errors);  
     }
 
     public function myPanel(){

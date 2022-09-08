@@ -3,23 +3,22 @@
 class Email 
 {
     private $email;
-
-    function __construct($email)
+    private $errors = [];
+    public function __construct($email)
     {
         $this->email = $email;
     }
     
-    function validateEmail()
+    public function validateEmail()
     {
-        $errors = [];
 
         if (empty($this->email)) {
-            $errors['email'] = 'Field must be filled';
+            $this->errors['email'] = 'Field must be filled';
         } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
-            $errors['email'] = 'Please, enter a correct email format';
+            $this->errors['email'] = 'Please, enter a correct email format';
         } 
 
-        return $errors;
+        return $this->errors['email'] ?? '';
     }
 
     public function checkIfEmailExists()

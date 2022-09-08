@@ -1,12 +1,18 @@
 <?php
+require_once '../libraries/session.php';
+require_once '../libraries/Image.php';
+require_once '../libraries/formsValidation.php';
 
 class HomeController extends Controller
 {     
     private $homeModel;
-    
+    private $isLoggedIn;
+
     public function __construct()
     {
         $this->homeModel = $this->model('Home');
+        $this->isLoggedIn = new Session();
+
     }
     
     public function getAllHomes() //Destinations page
@@ -14,7 +20,6 @@ class HomeController extends Controller
         $allHomes = $this->homeModel->getAll();   
         $this->view('Home/homes', $allHomes);  
     }
-
 
     public function homeSinglePage() //Single page home 
     { 
@@ -39,12 +44,7 @@ class HomeController extends Controller
 
     public function addHome()
     { 
-        require_once '../libraries/session.php';
-        require_once '../libraries/Image.php';
-        require_once '../libraries/formsValidation.php';
-
-        $isLoggedIn = new Session();
-        if (!$isLoggedIn->isLoggedIn()) {
+        if (!$this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
@@ -76,15 +76,13 @@ class HomeController extends Controller
                 $data['feedBack'] = "An error ocurred while submiting your home. Pleas, try again later.";
             } 
         }
-
         $this->view('Users/AdminPanel/AddHomeForm', $data, $errors);
     }
 
 
     public function updateHome()
     { 
-        $isLoggedIn = new Session();
-        if (!$isLoggedIn->isLoggedIn()) {
+        if (!$this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
@@ -119,10 +117,7 @@ class HomeController extends Controller
     
     public function deleteHome()
     { 
-        $deleteConfirmation = false;
-        $isLoggedIn = new Session();
-
-        if (!$isLoggedIn->isLoggedIn()) {
+        if (!$this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
@@ -131,14 +126,17 @@ class HomeController extends Controller
         $this->view('Users/AdminPanel/Homes', $homes); 
 
         if (isset($_GET['delete'])) {
-            $this->view('Users/AdminPanel/DeleteConfirmationMsg');   
+            $data = [];
+            $this->homeModel->id = $_GET['delete'];
+            $home = $this->homeModel->getSingleRow(); 
+            $data['homeToDelete'] = $home['name'];
+
+            $this->view('Users/AdminPanel/DeleteConfirmationMsg', $data);   
 
             if (isset($_POST['delete'])) {
-                $this->homeModel->id = $_GET['delete'];
-                $homeToDelete = $this->homeModel->getSingleRow();  
                 $this->homeModel->deleteHome();
 
-                header("location:".$_SERVER['HTTP_REFERER']);
+                var_dump($_SERVER['HTTP_REFERER']); 
             } 
         }
     } 

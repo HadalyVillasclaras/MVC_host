@@ -1,47 +1,60 @@
 <?php
 
-
 class Image 
 {  
     public $img;
     public $homeName;
-    public $extensionMsg;
-    
-    public function checkImage($img, $homeName){ 
+    public $imgExtension;
+    public $imgFolderName;
+    public $newFileName;
+
+    public function __construct($img, $homeName)
+    {
+        $this->img = $img;
+        $this->homeName = $homeName;
 
         $fileName = $img['name'];
         $fileTmpName = $img['tmp_name'];
         $fileSize = $img['size'];
         $fileError = $img['error'];
         $fileType = $img['type'];
+    }
 
-        //Extension
+    public function saveImage()
+    { 
+        if ($this->img['error'] === 0 ) {       
+            $newFileName = $this->uniqueImageName();
+            var_dump($newFileName);
 
-        if(
-            $fileError === 0 && 
-            $this->checkExtension($fileName) && 
-            $this->checkFileSize($fileSize)
-            ){
-            
-            $fileExtension = $this->checkExtension($fileName);
-            $newFileName = uniqid('', true) .'.'. $fileExtension;
-            $folderPath = $this->folderNamePath($homeName) . '/'; 
-            $filePath = $folderPath  . $newFileName;
+            $newDirectory = $this->createDirectory() . '/'; 
+            $filePath = $newDirectory  . $newFileName;
 
-            move_uploaded_file($fileTmpName, $filePath);
-
-            return $newFileName; 
-                
+            var_dump($filePath);
+            move_uploaded_file($this->img['tmp_name'], $filePath);
         }else{
             echo "There was an error uploading your file.";
             return false;
         }
+    }
+    
+    public function checkExtension()
+    {
+        $allowedFormats = ['jpg', 'jpge', 'png'];
+        $extension = explode('.', $this->img['name']);
+        $formattedExtension = strtolower(end($extension));
 
+        if (in_array($formattedExtension, $allowedFormats)) {
+            $this->imgExtension = $formattedExtension;
+            return true;
+        } else {
+            echo "Please, upload an image of any of these formats: jpg, jpeg or png.";
+            return false;
+        }
     }
 
-    public function checkFileSize($fileSize) 
+    public function checkFileSize() 
     {
-        if($fileSize < 10000000) {
+        if($this->img['size'] < 10000000) {
             return true;
         } else {
             echo "Please, upload an image with no more than 500MB.";
@@ -49,9 +62,24 @@ class Image
         }
     }
 
-    public function folderNamePath($homeName){ 
-        $homeName = $this->createFolderName($homeName); 
-        $folderPath = 'assets/img/homes/' . $homeName;
+    public function uniqueImageName() 
+    {
+        if ( $this->checkExtension() && $this->checkFileSize()) {
+            $imgExtension = $this->imgExtension;
+            $homeName = $this->homeName;
+            $newFileName = uniqid($homeName . '_') .'.'. $imgExtension;
+            $this->newFileName = $newFileName; 
+
+            return $newFileName;
+        }
+    }
+
+    public function createDirectory()
+    { 
+        $imgFolderName = preg_replace('/\s+/', '_', strtolower($this->homeName));
+        $this->imgFolderName = $imgFolderName;
+
+        $folderPath = 'assets/img/homes/' . $imgFolderName;
 
         if(file_exists($folderPath) || is_dir($folderPath)){ 
             return $folderPath;
@@ -62,25 +90,15 @@ class Image
         } 
     }
 
-    public function checkExtension($fileName){
-        $allowedFormats = [
-            'jpg',
-            'jpge',
-            'png'
-        ];
-        $extension = explode('.', $fileName);
-        $formattedExtension = strtolower(end($extension));
 
-        if (in_array($formattedExtension, $allowedFormats)) {
-            return $formattedExtension;
-        } else {
-            $this->extensionMsg = "Please, upload an image of any of these formats: jpg, jpeg or png.";
-            return false;
-        }
-    }
 
-    public function createFolderName($newHomeName){
-        $imgFolderName = preg_replace('/\s+/', '_', strtolower($newHomeName));
-        return $imgFolderName;
-    }
+
+
+
+
+
+
+
+
+
 }

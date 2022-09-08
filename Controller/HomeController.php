@@ -58,19 +58,18 @@ class HomeController extends Controller
             'submitFeedback' => ''
         ];
 
-        $imageCheck = new Image();
+
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
 
             if (isset($_POST['submit'])) { 
-                $name = trim($_POST['name']);
+                $homeName = trim($_POST['name']);
                 $city = trim($_POST['city']);
                 $price = trim($_POST['price']);
                 $img = $_FILES['image'];
-                $imgFolderName = $imageCheck->createFolderName($name);
 
-                if (empty($name)) {
+                if (empty($homeName)) {
                     $data['nameError'] = 'Field must be filled';
                 }
                 if (empty($city)) {
@@ -80,21 +79,27 @@ class HomeController extends Controller
                     $data['imgError'] = 'Field must be filled';
                 }
 
-                $imgName = $imageCheck->checkImage($img, $name);  //meter error en img msg
+                $image = new Image($img, $homeName);
+                $image->saveImage();
+
+                $newImgName = $image->newFileName;
+                $imgFolderName = $image->imgFolderName;
+
+                
+
 
                 //Check and submit Home
                 if (
                     empty($data['nameError']) && 
                     empty($data['cityError']) && 
-                    empty($data['imgError']) &&
-                    $imgName
+                    empty($data['imgError'])
                     ){
-                        $this->homeModel->img = $imgName;  
+                        $this->homeModel->img = $newImgName;  
                         $this->homeModel->imgFolderName = $imgFolderName;  
-                        $this->homeModel->name = $name;
+                        $this->homeModel->name = $homeName;
                         $this->homeModel->city = $city;
                         $this->homeModel->price = $price; 
-                        
+
                         $this->homeModel->addHome(); 
                     
                 }else{

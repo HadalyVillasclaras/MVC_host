@@ -1,13 +1,18 @@
 <?php
+require_once '../libraries/session.php';
 
 
 class UserController extends Controller
 {
+    private $isLoggedIn;
+
     public function __construct()
     {
         $this->userModel = $this->model('User');
         $this->homeModel = $this->model('Home');
         $this->reservationModel = $this->model('Reservation');
+        $this->isLoggedIn = new Session();
+
     }
     
     public function login()
@@ -22,16 +27,11 @@ class UserController extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
-
-            var_dump($_POST);
        
-            if (isset($_POST['login']))
-            {
+            if (isset($_POST['login'])) {
                 $data = [
                     'email' => trim($_POST['email']),
-                    'password' => trim($_POST['password']),
-                    'emailError' => '',
-                    'passError' => ''
+                    'password' => trim($_POST['password'])
                 ];
 
                 if (empty($data['email'])) 
@@ -160,34 +160,28 @@ class UserController extends Controller
     }
 
     public function myPanel(){
-        // if(!isLoggedIn()){
-        //     header("Location: " . BASE_URL . 'usercontroller/login');
-        // }
+        if (!$this->isLoggedIn->isLoggedIn()) {
+            header("Location: " . BASE_URL . 'usercontroller/login');
+        }
 
         $userId = $_SESSION['user_id']; 
-
         $this->userModel->id  = $userId; 
-        $this->reservationModel->userId  =  $userId; 
-
         $role = $this->userModel->checkRole();
 
+        $this->reservationModel->userId  =  $userId; 
+
         if($role['role'] == 'Admin'){
-            $homes = $this->homeModel->getAll('Homes');   
-         
-            $this->view('Users/AdminPanel/Homes', $homes); 
+            $data['homes'] = $this->homeModel->getAll('Homes');   
+            $data['reservations'] = $this->reservationModel->getAll('Reservations');   
+            $data['userInfo'] = $this->userModel->findUserById();
 
-            $reservations = $this->reservationModel->getAll('Reservations');   
- 
-
-            $this->view('Users/AdminPanel/Reservation', $reservations); 
+            $this->view('Users/AdminPanel/Index', $data); 
 
         }elseif ($role['role'] == 'Guest') { 
-            $userInfo = $this->userModel->findUserById();
-            $this->view('Users/GuestPanel/index', $userInfo); 
-            
-            $userReservations = $this->reservationModel->findReservationByUserId();
+            $data['userInfo'] = $this->userModel->findUserById();
+            $data['userReservations'] = $this->reservationModel->findReservationByUserId();
 
-            $this->view('Users/GuestPanel/reservations', $userReservations); 
+            $this->view('Users/GuestPanel/Index', $data); 
         } 
         
 

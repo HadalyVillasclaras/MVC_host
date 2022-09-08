@@ -4,7 +4,7 @@ require_once 'manual.php';
 
 class Reservation extends Manual
 {
-    public $table = 'Reservation';
+    public $table = 'Reservations';
     public $id;
     public $userId;
     public $homeId;
@@ -23,7 +23,7 @@ class Reservation extends Manual
 
     function getReservation()
     { 
-        $sql = "SELECT * FROM Reservation WHERE id = :id";
+        $sql = "SELECT * FROM Reservations WHERE id = :id";
         $stmt= $this->connection->prepare($sql);
         $stmt->execute(array(":id"=>$this->id)); 
         $reservations = $stmt->fetch(); 

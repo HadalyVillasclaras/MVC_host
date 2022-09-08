@@ -12,7 +12,6 @@ class HomeController extends Controller
     {
         $this->homeModel = $this->model('Home');
         $this->isLoggedIn = new Session();
-
     }
     
     public function getAllHomes() //Destinations page
@@ -49,7 +48,7 @@ class HomeController extends Controller
         }
 
         if (isset($_POST['submit'])) { 
-            $data['homeName'] = trim($_POST['name']) ?? '';
+            $data['homeName'] = trim($_POST['name']);
             $data['city'] = trim($_POST['city']);
             $data['price'] = trim($_POST['price']);
             $data['img'] = $_FILES['image'];
@@ -79,13 +78,13 @@ class HomeController extends Controller
         $this->view('Users/AdminPanel/AddHomeForm', $data, $errors);
     }
 
-
     public function updateHome()
     { 
         if (!$this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
+        // Background view
         $homes = $this->homeModel->getAll();   
         $this->view('Users/AdminPanel/Homes', $homes); 
 
@@ -95,23 +94,37 @@ class HomeController extends Controller
 
             $this->view('Users/AdminPanel/updateHomeForm', $homeToUpdate); 
 
-            if (isset($_POST['submit'])){
-                $name=$_POST['name'];
-                $city=$_POST['city'];
-                $price=$_POST['price'];
-                $img=$_FILES['image']; 
+            if (isset($_POST['submit'])) {
+                $data['homeName'] = trim($_POST['name']);
+                $data['city'] = trim($_POST['city']);
+                $data['price'] = trim($_POST['price']);
+                $data['img'] = $_FILES['image'];
 
-                $this->homeModel->name = $name;
-                $this->homeModel->city = $city;
-                $this->homeModel->price = $price; 
-                $this->homeModel->img = $img;  
+                $image = new Image($data['img'], $data['homeName']);
+                $image->saveImage();
+                $data['newImgName'] = $image->newFileName;
+                $data['imgFolderName'] = $image->imgFolderName;
 
-                $this->homeModel->updateHome(); 
+                $validations = new FormsValidation();
+                $errors = $validations->validateHomeFields($data);
 
-                header('Location: '.$_SERVER['HTTP_REFERER']);
-                $this->view('Users/AdminPanel/updateHomeForm', $homeToUpdate); 
+                if (count($errors) === 0) {
+                    $this->homeModel->img = $data['newImgName'];  
+                    $this->homeModel->imgFolderName = $data['imgFolderName']; 
+                    $this->homeModel->name = $data['homeName'];
+                    $this->homeModel->city = $data['city'];
+                    $this->homeModel->price = $data['price'];
+
+                    if ($this->homeModel->updateHome()) {
+                        $data['feedBack'] = "Your home has been updated succesfully.";
+                    } else {
+                        $data['feedBack'] = "An error ocurred while updating your home. Pleas, try again later.";
+                    } 
+                    
+                }
+
+                $this->view('Users/AdminPanel/updateHomeForm', $homeToUpdate, $errors); 
             } 
-            
         }
     }
     
@@ -126,12 +139,10 @@ class HomeController extends Controller
         $this->view('Users/AdminPanel/Homes', $homes); 
 
         if (isset($_GET['delete'])) {
-            $data = [];
             $this->homeModel->id = $_GET['delete'];
-            $home = $this->homeModel->getSingleRow(); 
-            $data['homeToDelete'] = $home['name'];
+            $homeToDelete = $this->homeModel->getSingleRow(); 
 
-            $this->view('Users/AdminPanel/DeleteConfirmationMsg', $data);   
+            $this->view('Users/AdminPanel/DeleteConfirmationMsg', $homeToDelete);   
 
             if (isset($_POST['delete'])) {
                 $this->homeModel->deleteHome();

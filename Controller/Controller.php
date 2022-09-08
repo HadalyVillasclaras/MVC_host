@@ -12,7 +12,7 @@ class Controller
         }
     }
 
-    public function view($view, $data = [], $data2 = [])
+    public function view($view, $data = [], $errors = [])
     { 
         if(file_exists('../View/' .  $view . '.php')){  
             require_once '../View/' . $view . '.php';

@@ -89,16 +89,4 @@ class Image
             return $folderPath;
         } 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

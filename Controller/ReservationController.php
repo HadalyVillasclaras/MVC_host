@@ -128,28 +128,5 @@ class ReservationsController extends Controller{
         
         $this->reservationsModel->insertReservation();  
     }
-
-
-
-
-    public function calculateCost($data){
-        $prize = $data['Price'];
-            
-        $startDate = strtotime($data['startDate']);
-        $endDate = strtotime($data['endDate']);
-        $nights = ($endDate - $startDate) / (60 * 60 * 24);
-
-        $totalCost = $prize * $nights;
-        
-        $data['Nights'] = $nights;
-        $data['totalCost'] = $totalCost;
-
-        return $data;
-    }
     
 }
-
-
-
-
-?>

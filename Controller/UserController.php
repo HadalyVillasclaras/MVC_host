@@ -13,60 +13,35 @@ class UserController extends Controller
         $this->homeModel = $this->model('Home');
         $this->reservationModel = $this->model('Reservation');
         $this->isLoggedIn = new Session();
-
     }
     
     public function login()
     {
-        $data = [
-            'email' => '',
-            'password' => '',
-            'emailError' => '',
-            'passError' => ''
-        ];
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
-            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
+        //Si ya está loggeado, header location to my panel
        
-            if (isset($_POST['login'])) {
-                $data = [
-                    'email' => trim($_POST['email']),
-                    'password' => trim($_POST['password'])
-                ];
+        if (isset($_POST['login'])) {
+            $data = [
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password'])
+            ];
+            
+            // check if empty or null validation
+            //check if valid pass and user
+            $errors = [] //save errors here if exists
 
-                if (empty($data['email'])) 
-                {
-                    $data['emailError'] = 'Please, enter an email';
-                }
-     
-                if (empty($data['password'])) {
-                    $data['passError'] = 'Please, enter a password';
-                }
-    
-                //Login
-                if (empty($data['emailError']) && empty($data['passError'])) 
-                {
-                    $loggedUser = $this->userModel->login($data['email'], $data['password']);
-                    var_dump($loggedUser);
-                    if ($loggedUser) {
-                        echo "loggeado";
-                        $this->createSession($loggedUser);
-                    } else {
-                        $data['passError'] = 'Password or username is incorrect. Please try again.';
-                        $this->view('Users/login', $data);
-                    }
+            //Login
+            if (count($errors) === 0) {
+                $loggedUser = $this->userModel->login($data['email'], $data['password']);
+
+                if ($loggedUser) {
+                    $this->createSession($loggedUser);
+                } else {
+                    $data['feedback'] = 'Error login credentials.';
                 }
             }
-        }else{
-            $data = [
-                'email' => '',
-                'password' => '',
-                'emailError' => '',
-                'passError' => ''
-            ];
         }
-        $this->view('Users/login', $data);  
+        
+        $this->view('Users/login', $data, $errors);  
     }
     
     public function register(){
@@ -130,7 +105,7 @@ class UserController extends Controller
 
             $this->view('Users/AdminPanel/Index', $data); 
 
-        }elseif ($role['role'] == 'Guest') { 
+        } elseif ($role['role'] == 'Guest') { 
             $data['userInfo'] = $this->userModel->findUserById();
             $data['userReservations'] = $this->reservationModel->findReservationByUserId();
 

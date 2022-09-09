@@ -86,10 +86,10 @@ class ReservationsController extends Controller{
         header("Location: " . BASE_URL . 'usercontroller/login');
     }
 
-
+    if (isset($_GET['id'])) {
         $this->homeModel->id = $_GET['id'];
-        $home = $this->homeModel->getSingleRow();
-
+        $home = $this->homeModel->getSingleRow();  
+        
         $data = [
             'UserId' => $_SESSION['user_id'],
             'HomeId' => $_GET['id'],
@@ -98,19 +98,36 @@ class ReservationsController extends Controller{
             'Price' => $home['Price'],
             'ImageName' => $home['ImageName'],
             'ImageFolder' => $home['ImageFolder'],
-
             'startDate' => $_GET['checkin'],
             'endDate' => $_GET['checkout'],
             'Guests' => $_GET['guests'],
             'Nights' => '',
             'totalCost' => ''
         ];
+    }
+    
 
-        $data = $this->calculateCost($data); 
-        $this->submitReservation($data);
+    $data = [
+        'UserId' => $_SESSION['user_id'],
+        'HomeId' => $_GET['id'],
+        'Name' => $home['Name'],
+        'City' => $home['City'],
+        'Price' => $home['Price'],
+        'ImageName' => $home['ImageName'],
+        'ImageFolder' => $home['ImageFolder'],
+
+        'startDate' => $_GET['checkin'],
+        'endDate' => $_GET['checkout'],
+        'Guests' => $_GET['guests'],
+        'Nights' => '',
+        'totalCost' => ''
+    ];
+
+    $data = $this->calculateCost($data); 
+    $this->submitReservation($data);
 
 
-        $this->view('Reservation/checkout', $data);   
+    $this->view('Reservation/checkout', $data);   
 
     }
 

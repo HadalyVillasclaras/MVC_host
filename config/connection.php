@@ -5,6 +5,8 @@ require_once("config.php");
 class Connection{
     private $connection;
 
+
+
     public function Connect()
     { 
         try{

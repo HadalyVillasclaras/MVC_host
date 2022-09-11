@@ -1,7 +1,7 @@
 <?php
-require_once '../libraries/session.php';
-require_once '../libraries/Validations/Password.php';
-require_once '../libraries/Validations/Email.php';
+require_once '../lib/session.php';
+require_once '../lib/Validations/Password.php';
+require_once '../lib/Validations/Email.php';
 
 class UserController extends Controller
 {
@@ -101,7 +101,7 @@ class UserController extends Controller
 
 
     public function createSession($user){ 
-        require_once '../libraries/session.php';
+        require_once '../lib/session.php';
         $_SESSION['email'] = $user['email'];
         $_SESSION['name'] = $user['first_name'];
         $_SESSION['user_id'] = $user['id']; 

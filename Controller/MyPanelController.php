@@ -1,8 +1,8 @@
 <?php
 
-require_once '../libraries/session.php';
-require_once '../libraries/Validations/Password.php';
-require_once '../libraries/Validations/Email.php';
+require_once '../lib/session.php';
+require_once '../lib/Validations/Password.php';
+require_once '../lib/Validations/Email.php';
 
 class MyPanelController extends Controller
 {

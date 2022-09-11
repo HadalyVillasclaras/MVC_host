@@ -1,7 +1,7 @@
 <?php
-require_once '../libraries/session.php';
-require_once '../libraries/Image.php';
-require_once '../libraries/Validations/formsValidation.php';
+require_once '../lib/session.php';
+require_once '../lib/Image.php';
+require_once '../lib/Validations/formsValidation.php';
 require_once 'MyPanelController.php';
 
 class HomeController extends Controller

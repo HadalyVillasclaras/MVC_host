@@ -24,12 +24,10 @@ class Image
     { 
         if ($this->img['error'] === 0 ) {       
             $newFileName = $this->uniqueImageName();
-            var_dump($newFileName);
 
             $newDirectory = $this->createDirectory() . '/'; 
             $filePath = $newDirectory  . $newFileName;
 
-            var_dump($filePath);
             move_uploaded_file($this->img['tmp_name'], $filePath);
         }else{
             echo "There was an error uploading your file.";

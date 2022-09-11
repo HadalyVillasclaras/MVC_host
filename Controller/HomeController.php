@@ -2,6 +2,7 @@
 require_once '../libraries/session.php';
 require_once '../libraries/Image.php';
 require_once '../libraries/Validations/formsValidation.php';
+require_once 'MyPanelController.php';
 
 class HomeController extends Controller
 {     
@@ -47,6 +48,8 @@ class HomeController extends Controller
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
+        $data = [];
+        $errors = [];
         if (isset($_POST['submit'])) { 
             $data['homeName'] = trim($_POST['name']);
             $data['city'] = trim($_POST['city']);
@@ -85,8 +88,9 @@ class HomeController extends Controller
         }
 
         // Background view
-        $homes = $this->homeModel->getAll();   
-        $this->view('Users/AdminPanel/Homes', $homes); 
+        //background view
+        $myPanel = new MyPanelController();
+        $myPanel->index();
 
         if(isset($_GET['edit'])){
             $this->homeModel->id = $_GET['edit'];
@@ -135,8 +139,8 @@ class HomeController extends Controller
         }
 
         //background view
-        $homes = $this->homeModel->getAll();   
-        $this->view('Users/AdminPanel/Homes', $homes); 
+        $myPanel = new MyPanelController();
+        $myPanel->index();
 
         if (isset($_GET['delete'])) {
             $this->homeModel->id = $_GET['delete'];

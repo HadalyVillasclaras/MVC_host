@@ -27,7 +27,7 @@ class UserController extends Controller
             
             // check if empty or null validation
             //check if valid pass and user
-            $errors = [] //save errors here if exists
+            $errors = []; //save errors here if exists
 
             //Login
             if (count($errors) === 0) {
@@ -41,7 +41,15 @@ class UserController extends Controller
             }
         }
         
-        $this->view('Users/login', $data, $errors);  
+        $this->view('Users/login', $data = [], $errors = []);  
+    }
+
+    public function logout(){
+        unset($_SESSION['email']);
+        unset($_SESSION['name']);
+        unset($_SESSION['user_id']);
+        session_destroy();
+        header('location: ' . BASE_URL);
     }
     
     public function register(){
@@ -87,31 +95,6 @@ class UserController extends Controller
         $this->view('Users/register', $data, $errors);  
     }
 
-    public function myPanel(){
-        if (!$this->isLoggedIn->isLoggedIn()) {
-            header("Location: " . BASE_URL . 'usercontroller/login');
-        }
-
-        $userId = $_SESSION['user_id']; 
-        $this->userModel->id  = $userId; 
-        $role = $this->userModel->checkRole();
-
-        $this->reservationModel->userId  =  $userId; 
-
-        if($role['role'] == 'Admin'){
-            $data['homes'] = $this->homeModel->getAll('Homes');   
-            $data['reservations'] = $this->reservationModel->getAll('Reservations');   
-            $data['userInfo'] = $this->userModel->findUserById();
-
-            $this->view('Users/AdminPanel/Index', $data); 
-
-        } elseif ($role['role'] == 'Guest') { 
-            $data['userInfo'] = $this->userModel->findUserById();
-            $data['userReservations'] = $this->reservationModel->findReservationByUserId();
-
-            $this->view('Users/GuestPanel/Index', $data); 
-        } 
-    }
 
 
 

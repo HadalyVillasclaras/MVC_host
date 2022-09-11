@@ -1,5 +1,5 @@
 <section class="admin-homes">
-    <h3>Hello, <?=$data['userInfo']['first_name'];?></h3>
+    <h3>Hello, <?='e'//$data['userInfo']['first_name'] ?? '';?></h3>
 </section>
 
 

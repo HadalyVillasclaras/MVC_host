@@ -14,7 +14,7 @@ class Reservation
     $prize = $this->reservation['Price'];
     $totalNights = $this->calculateTotalNights();
     
-    $totalCost = $prize * $nights;
+    $totalCost = $prize * $totalNights;
 
     return $totalCost;
   }

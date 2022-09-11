@@ -12,7 +12,7 @@
             </li>
             <li class="navbar-li"><a href="<?=BASE_URL;?>homecontroller/getallhomes">Destinations</a></li> 
             <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/register">Register</a></li> 
-            <li class="navbar-li"><a href="<?=BASE_URL;?>usercontroller/mypanel">My Panel</a></li> 
+            <li class="navbar-li"><a href="<?=BASE_URL;?>mypanelcontroller">My Panel</a></li> 
         </ul> 
     </ul>
 </nav>

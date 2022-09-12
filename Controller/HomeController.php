@@ -18,21 +18,20 @@ class HomeController extends Controller
     public function getAllHomes() //Destinations page
     { 
         $allHomes = $this->homeModel->getAll();   
-        var_export($allHomes);
         $this->view('Home/homes', $allHomes);  
     }
 
     public function getHome() //Single page home 
     { 
         $this->homeModel->id = $_GET['id'];
-        $home = $this->homeModel->getSingleRow();
+        $home = $this->homeModel->getById();
 
         $data = [ 
-            'homeId' => $home['id'],
-            'Name' => $home['name'],
-            'Price' => $home['price'],
-            'ImageFolder' => $home['image_folder'],
-            'ImageName' => $home['image_name'],
+            'homeId' => $home['id'] ?? '',
+            'Name' => $home['name'] ?? '',
+            'Price' => $home['price'] ?? '',
+            'ImageFolder' => $home['image_folder'] ?? '',
+            'ImageName' => $home['image_name'] ?? '',
             'startDate' => '',
             'endDate' => '',
             'guests' => '',
@@ -52,10 +51,12 @@ class HomeController extends Controller
         $data = [];
         $errors = [];
         if (isset($_POST['submit'])) { 
-            $data['name'] = trim($_POST['name']);
-            $data['city'] = trim($_POST['city']);
-            $data['price'] = trim($_POST['price']);
-            $data['img'] = $_FILES['image'];
+            $data = [
+                'name' => trim($_POST['name']),
+                'city' => trim($_POST['city']),
+                'price' => trim($_POST['price']),
+                'img' => $_FILES['image']
+            ];
 
             $image = new Image($data['img'], $data['name']);
             $image->saveImage();
@@ -64,19 +65,19 @@ class HomeController extends Controller
 
             $validations = new FormsValidation();
             $errors = $validations->validateHomeFields($data);
-            var_dump($errors);
-            if (count($errors) === 0) {
-                    $this->homeModel->img = $data['newImgName'];  
-                    $this->homeModel->imgFolderName = $data['imgFolderName']; 
-                    $this->homeModel->name = $data['name'];
-                    $this->homeModel->city = $data['city'];
-                    $this->homeModel->price = $data['price']; 
 
-                    if ($this->homeModel->addHome() == 1) {
-                        $data['feedBack'] = "Your home has been added succesfully.";
-                    } else {
-                        $data['feedBack'] = "An error ocurred while submiting your home. Pleas, try again later.";
-                    } 
+            if (count($errors) === 0) {
+                $this->homeModel->img = $data['newImgName'];  
+                $this->homeModel->imgFolderName = $data['imgFolderName']; 
+                $this->homeModel->name = $data['name'];
+                $this->homeModel->city = $data['city'];
+                $this->homeModel->price = $data['price']; 
+
+                if ($this->homeModel->addHome() == 1) {
+                    $data['feedBack'] = "Your home has been added succesfully.";
+                } else {
+                    $data['feedBack'] = "An error ocurred while submiting your home. Pleas, try again later.";
+                } 
             }
         }
         $this->view('Users/AdminPanel/AddHomeForm', $data, $errors);
@@ -94,15 +95,18 @@ class HomeController extends Controller
 
         if(isset($_GET['edit'])){
             $this->homeModel->id = $_GET['edit'];
-            $data = $this->homeModel->getSingleRow();   
+            $data = $this->homeModel->getById();   
 
             if (isset($_POST['submit'])) {
-                $data = [];
-                $data['name'] = trim($_POST['name']);
-                $data['city'] = trim($_POST['city']);
-                $data['price'] = trim($_POST['price']);
-                $data['img'] = $_FILES['image'];
+                $data = [
+                    'name' => trim($_POST['name']),
+                    'city' => trim($_POST['city']),
+                    'price' => trim($_POST['price']),
+                    'img' => $_FILES['image']
+                ];
+
                 $data['feedBack'] = '';
+
                 $image = new Image($data['img'], $data['name']);
                 $image->saveImage();
                 $data['newImgName'] = $image->newFileName;
@@ -143,7 +147,7 @@ class HomeController extends Controller
 
         if (isset($_GET['delete'])) {
             $this->homeModel->id = $_GET['delete'];
-            $homeToDelete = $this->homeModel->getSingleRow(); 
+            $homeToDelete = $this->homeModel->getById(); 
         
             if (isset($_POST['delete'])) {
                 if ($this->homeModel->deleteHome() == 1) {

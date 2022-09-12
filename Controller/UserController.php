@@ -15,11 +15,56 @@ class UserController extends Controller
         $this->isLoggedIn = new Session();
     }
     
+    public function register(){
+        $data = [];
+        if (isset($_POST['register'])) {  
+            $data = [
+                'name' => trim($_POST['name']),
+                'surname' => trim($_POST['surname']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'confirmPassword' => trim($_POST['confirmPassword'])
+            ];
+
+            //Validate email
+            $emailValidation = new Email($data['email']);
+            $errors['email'] = $emailValidation->validateEmail();
+
+            if ($this->userModel->checkIfEmailExists($data['email']) == 1){
+                $errors['email'] = 'Email already exists!';
+            }
+
+            //Validate password & confirm password
+            $password =  new Password($data['password']);
+            $errors['password'] = $password->validatePassword();
+            $errors['confirmPassword'] = $password->validateConfirmPassword($data['confirmPassword']);
+
+            
+            if (count($errors) === 0) {
+                $this->userModel->name = $data['name'];
+                $this->userModel->surname = $data['surname'];
+                $this->userModel->email = $data['email'];
+                $this->userModel->password = $password->passwordHash();
+
+                if ($this->userModel->addUser() == 1) {
+                    $data['feedBack'] = "User registered.";
+                } else {
+                    $data['feedBack'] = "An error ocurred while registering. Pleas, try again later.";
+                } 
+            }
+        }
+        $this->view('Users/register', $data, $errors);  
+    }
+
+
+
+
     public function login()
     {
         //Si ya está loggeado, header location to my panel
        
         if (isset($_POST['login'])) {
+
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password'])
@@ -29,9 +74,13 @@ class UserController extends Controller
             //check if valid pass and user
             $errors = []; //save errors here if exists
 
+
+
             //Login
             if (count($errors) === 0) {
-                $loggedUser = $this->userModel->login($data['email'], $data['password']);
+                $this->userModel->email = $data['email'];
+                $this->userModel->password = $data['password'];
+                $loggedUser = $this->userModel->login();
 
                 if ($loggedUser) {
                     $this->createSession($loggedUser);
@@ -51,54 +100,6 @@ class UserController extends Controller
         session_destroy();
         header('location: ' . BASE_URL);
     }
-    
-    public function register(){
-
-        $data = [];
-        
-        if (isset($_POST['register'])) {  
-            $data = [
-                'name' => trim($_POST['name']),
-                'surname' => trim($_POST['surname']),
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'confirmPassword' => trim($_POST['confirmPassword'])
-            ];
-
-            //Validate email
-            $emailValidation = new Email($data['email']);
-            $errors['email'] = $emailValidation->validateEmail();
-
-            if ($this->userModel->findUserEmail($data['email'])){
-                $errors['email'] = 'Email already exists!';
-            }
-
-            //Validate password & confirm password
-            $password =  new Password($data['password']);
-            $errors['password'] = $password->validatePassword();
-            $errors['confirmPassword'] = $password->validateConfirmPassword($data['confirmPassword']);
-
-            if (count($errors) === 0) {
-                $this->userModel->name = $data['name'];
-                $this->userModel->surname = $data['surname'];
-                $this->userModel->email = $data['email'];
-                $this->userModel->password = $password->passwordHash();;
-
-
-                if ($this->userModel->register()) {
-                    $data['feedBack'] = "User registered.";
-                } else {
-                    $data['feedBack'] = "An error ocurred while registering. Pleas, try again later.";
-                } 
-            }
-        }
-        $this->view('Users/register', $data, $errors);  
-    }
-
-
-
-
-
 
     public function createSession($user){ 
         require_once '../lib/session.php';

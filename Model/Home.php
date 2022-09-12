@@ -19,7 +19,7 @@ class Home extends Manual
     
     public function addHome()
     {
-        $sql = "INSERT INTO Homes(name, city, price, image_name, image_folder) VALUES (:name, :city, :price, :img, :imgFolderName);";
+        $sql = "INSERT INTO $this->table(name, city, price, image_name, image_folder) VALUES (:name, :city, :price, :img, :imgFolderName);";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute(array(
             ":name" => $this->name, 
@@ -34,7 +34,7 @@ class Home extends Manual
 
     public function updateHome()
     {    
-        $sql = "UPDATE Homes SET Name = :name, city = :city, price = :price WHERE id =:id";
+        $sql = "UPDATE $this->table SET Name = :name, city = :city, price = :price WHERE id =:id";
         $stmt = $this->connection->prepare($sql); 
         $stmt->execute(array(
             ":id" => $this->id, 
@@ -48,7 +48,7 @@ class Home extends Manual
 
     public function deleteHome()
     {
-        $sql = "DELETE FROM Homes WHERE id = :id";
+        $sql = "DELETE FROM $this->table WHERE id = :id";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute(array(":id"=>$this->id));
 

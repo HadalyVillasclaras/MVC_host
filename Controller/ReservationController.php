@@ -10,7 +10,7 @@ class ReservationsController extends Controller{
     public function checkAvailability(){ 
         $id = $_GET['id'];
         $this->homeModel->id = $id;
-        $home = $this->homeModel->getSingleRow();
+        $home = $this->homeModel->getById();
         $data = [ 
             'homeId' => $id,
             'homeId' => $home['Id'],
@@ -88,7 +88,7 @@ class ReservationsController extends Controller{
 
         if (isset($_GET['id'])) {
             $this->homeModel->id = $_GET['id'];
-            $home = $this->homeModel->getSingleRow();  
+            $home = $this->homeModel->getById();  
 
             $data = [
                 'UserId' => $_SESSION['user_id'],

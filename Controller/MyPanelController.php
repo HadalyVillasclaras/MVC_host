@@ -28,15 +28,15 @@ class MyPanelController extends Controller
 
         $this->reservationModel->userId  =  $userId; 
 
-        if($role['role'] == 'Admin'){
+        if($role == 'Admin'){
             $data['homes'] = $this->homeModel->getAll('Homes');   
             $data['reservations'] = $this->reservationModel->getAll('Reservations');   
-            $data['userInfo'] = $this->userModel->findUserById();
+            $data['userInfo'] = $this->userModel->getById();
 
             $this->view('Users/AdminPanel/Index', $data); 
 
-        } elseif ($role['role'] == 'Guest') { 
-            $data['userInfo'] = $this->userModel->findUserById();
+        } elseif ($role == 'Guest') { 
+            $data['userInfo'] = $this->userModel->getById();
             $data['userReservations'] = $this->reservationModel->findReservationByUserId();
 
             $this->view('Users/GuestPanel/Index', $data); 

@@ -1,12 +1,10 @@
 <?php
 
-
-
 require_once 'manual.php';
 
 class User extends Manual
 { 
-    public $table = 'Users';
+    protected $table = 'Users';
     public $id;
     public $name; 
     public $surname;
@@ -20,75 +18,77 @@ class User extends Manual
     } 
 
     
-    public function login($email, $password)
+    public function login()
     {
-        $sql = "SELECT * FROM Users WHERE email = :email";
+        $sql = "SELECT * FROM $this->table WHERE email = :email";
         $stmt= $this->connection->prepare($sql);
-        $stmt->execute(array(":email"=>$email)); 
-        $row = $stmt->fetch(); //single
+        $stmt->execute(array(":email"=>$this->email)); 
+        $row = $stmt->fetch();
         $hashedPassword = $row['password'];
 
-        if(password_verify($password, $hashedPassword)){
+        if (password_verify($this->password, $hashedPassword)) {
             return $row;
-        }else{
+        } else {
             return false;
         }
     }
 
-    
-
-    public function register()
+    public function addUser()
     {
-        $sql = "INSERT INTO Users(first_name, last_name, email, password, role) 
-                VALUES (:name, :surname, :email, :pass, :role);";
-        $stmt= $this->connection->prepare($sql);
-        $result = $stmt->execute(array(
-            ":name"=>$this->name, 
-            ":surname"=>$this->surname, 
+        $sql = "INSERT INTO $this->table(first_name, last_name, email, password, role) 
+                VALUES (:firstName, :lastName, :email, :pass, :role);";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute(array(
+            ":firstName"=>$this->name, 
+            ":lastName"=>$this->surname, 
             ":email"=>$this->email, 
             ":pass"=>$this->password,
             ":role"=>$this->role
         )); 
     
-        if($result){ 
-            return true;
-        }else{ 
-            return false;
-        }
-    
-    }
-
-    public function findUserById()
-    { 
-        $sql = "SELECT * FROM Users WHERE id = :id";
-        $stmt= $this->connection->prepare($sql);
-        $stmt->execute(array(":id"=>$this->id)); 
-        $result = $stmt->fetch();
-
-        return $result;
+        return $stmt->rowCount();
     }
     
-    public function findUserEmail($email)
+    public function updateUser()
+    {    
+        $sql = "UPDATE $this->table SET first_name = :firstName, last_name = :lastName, email = :email WHERE id =:id";
+        $stmt = $this->connection->prepare($sql); 
+        $stmt->execute(array(
+            ":id" => $this->id, 
+            ":firstName" => $this->name, 
+            ":lastName"=>$this->surname, 
+            ":email"=>$this->email
+        )); 
+
+        return $stmt->rowCount();
+    }
+
+    public function deleteUser()
+    {
+        $sql = "DELETE FROM $this->table WHERE id = :id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute(array(":id"=>$this->id));
+
+        return $stmt->rowCount();
+    }
+
+    public function checkIfEmailExists($email)
     { 
-        $sql = "SELECT * FROM Users WHERE email = :email";
+        $sql = "SELECT 1 FROM $this->table WHERE email = :email";
         $stmt= $this->connection->prepare($sql);
         $stmt->execute(array(":email"=>$email)); 
-        $emailExists = $stmt->fetchAll();
+        $emailExists = $stmt->fetchColumn();
 
-        if($emailExists){
-            return true;
-        }else{
-            return false;
-        }
+        return $emailExists;
     }
 
     public function checkRole()
     {
-        $sql = "SELECT * FROM Users WHERE id = :id";
-        $stmt= $this->connection->prepare($sql);
+        $sql = "SELECT role FROM $this->table WHERE id = :id";
+        $stmt = $this->connection->prepare($sql);
         $stmt->execute(array(":id"=>$this->id)); 
-        $role = $stmt->fetch();
+        $role = $stmt->fetchColumn();
+        
         return $role;
     }
 }
-?>

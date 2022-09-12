@@ -486,12 +486,12 @@ td a{
     height: 100vh;
     padding: 0;
 }
-.edit-hm-sect form{
+.edit-hm-sect form {
     position: relative;
     width: 45%;
-    margin: 10vh auto;
+    margin: 3vh auto;
     background: var(--light-bg);
-    padding: 3rem 4rem;
+    padding: 1rem 4rem;
     border: 1px solid var(--dark-green);
 }
 
@@ -623,7 +623,7 @@ footer h4{
     }
 
     #navbar-menu { 
-        width: 100%; 
+        width: 10%; 
         padding: 8rem 2rem;
     }
 

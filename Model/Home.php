@@ -19,22 +19,18 @@ class Home extends Manual
     
     public function addHome()
     {
-        if ($this->img) {
-            $sql = "INSERT INTO Homes(name, city, price, image_name, image_folder) VALUES (:name, :city, :price, :img, :imgFolderName);";
-            $stmt= $this->connection->prepare($sql);
-            $stmt->execute(array(
-                ":name" => $this->name, 
-                ":city" => $this->city, 
-                ":price" => $this->price, 
-                ":img" => $this->img, 
-                ":imgFolderName" => $this->imgFolderName
-            )); 
-            return true;
-        }else{
-            return false;
-        }  
+        $sql = "INSERT INTO Homes(name, city, price, image_name, image_folder) VALUES (:name, :city, :price, :img, :imgFolderName);";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute(array(
+            ":name" => $this->name, 
+            ":city" => $this->city, 
+            ":price" => $this->price, 
+            ":img" => $this->img, 
+            ":imgFolderName" => $this->imgFolderName
+        )); 
+        
+        return $stmt->rowCount();
     }
-
 
     public function updateHome()
     {    
@@ -46,13 +42,16 @@ class Home extends Manual
             ":city" => $this->city, 
             ":price" => $this->price
         )); 
-    }
 
+        return $stmt->rowCount();
+    }
 
     public function deleteHome()
     {
         $sql = "DELETE FROM Homes WHERE id = :id";
-        $stmt= $this->connection->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         $stmt->execute(array(":id"=>$this->id));
+
+        return $stmt->rowCount();
     }
 }

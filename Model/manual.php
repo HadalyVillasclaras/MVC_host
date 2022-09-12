@@ -14,18 +14,18 @@ class Manual
 
     public function getAll()
     { 
-        $sqlQuery = "SELECT * FROM $this->table";
-        $result = $this->connection->query($sqlQuery);
-        $result->fetch();
+        $sql = "SELECT * FROM $this->table";
+        $stmt = $this->connection->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result; 
     }
 
     public function getSingleRow()
     {
-        $sqlQuery = "SELECT * FROM $this->table WHERE id = :id";
-        $stmt= $this->connection->prepare($sqlQuery);
+        $sql = "SELECT * FROM $this->table WHERE id = :id";
+        $stmt= $this->connection->prepare($sql);
         $stmt->execute(array(":id" => $this->id)); 
-        $result = $stmt->fetch(); 
+        $result = $stmt->fetch(PDO::FETCH_ASSOC); 
         return $result;
     }
 }

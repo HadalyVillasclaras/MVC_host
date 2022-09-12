@@ -3,15 +3,15 @@
 class Image 
 {  
     public $img;
-    public $homeName;
+    public $name;
     public $imgExtension;
     public $imgFolderName;
     public $newFileName;
 
-    public function __construct($img, $homeName)
+    public function __construct($img, $name)
     {
         $this->img = $img;
-        $this->homeName = $homeName;
+        $this->name = $name;
 
         $fileName = $img['name'];
         $fileTmpName = $img['tmp_name'];
@@ -22,6 +22,7 @@ class Image
 
     public function saveImage()
     { 
+        echo $this->img['error'];
         if ($this->img['error'] === 0 ) {       
             $newFileName = $this->uniqueImageName();
 
@@ -30,7 +31,7 @@ class Image
 
             move_uploaded_file($this->img['tmp_name'], $filePath);
         }else{
-            echo "There was an error uploading your file.";
+            echo ".";
             return false;
         }
     }
@@ -64,8 +65,8 @@ class Image
     {
         if ( $this->checkExtension() && $this->checkFileSize()) {
             $imgExtension = $this->imgExtension;
-            $homeName = $this->homeName;
-            $newFileName = uniqid($homeName . '_') .'.'. $imgExtension;
+            $name = $this->name;
+            $newFileName = uniqid($name . '_') .'.'. $imgExtension;
             $this->newFileName = $newFileName; 
 
             return $newFileName;
@@ -74,7 +75,7 @@ class Image
 
     public function createDirectory()
     { 
-        $imgFolderName = preg_replace('/\s+/', '_', strtolower($this->homeName));
+        $imgFolderName = preg_replace('/\s+/', '_', strtolower($this->name));
         $this->imgFolderName = $imgFolderName;
 
         $folderPath = 'assets/img/homes/' . $imgFolderName;

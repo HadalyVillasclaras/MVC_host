@@ -5,7 +5,7 @@
         <input type="text" name="name" id="name"><br>
         <span class='wrongMsg'>
              <?php
-             echo $errors['homeName'] ?? '';?>  
+             echo $errors['name'] ?? '';?>  
         </span>
         <label for="city">City:</label>
         <input type="text" name="city" id="city"><br>

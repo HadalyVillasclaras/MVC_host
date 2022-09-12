@@ -5,5 +5,8 @@
         <p><i>You can't undo this action</i></p>
         <a class="btn" href="<?=BASE_URL;?>mypanelcontroller">Cancel</a>
         <input class="btn" type="submit" name="delete" id="delete" value="Delete">
+        <span class="wrongMsg" >
+            <?=$data['feedBack'] ?? '';?>
+        </span>
     </form>
 </section>

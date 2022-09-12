@@ -8,7 +8,7 @@ class Controller
             require_once '../Model/' . $model . '.php';
             return new $model();
         } else {
-            throw new Exception('Model does not exist.");
+            throw new Exception('Model does not exist.');
         }
     }
 
@@ -17,7 +17,7 @@ class Controller
         if (file_exists('../View/' .  $view . '.php')) {  
             require_once '../View/' . $view . '.php';
         } else {
-            throw new Exception('View does not exist.");
+            throw new Exception('View does not exist.');
         }
     }
 }

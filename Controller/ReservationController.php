@@ -1,60 +1,34 @@
 <?php
 
-
-class ReservationsController extends Controller{ 
+class ReservationController extends Controller{ 
     public function __construct(){
         $this->reservationsModel = $this->model('Reservation');
         $this->homeModel = $this->model('Home');
     }
 
     public function checkAvailability(){ 
-        $id = $_GET['id'];
-        $this->homeModel->id = $id;
-        $home = $this->homeModel->getById();
-        $data = [ 
-            'homeId' => $id,
-            'homeId' => $home['Id'],
-            'Name' => $home['Name'],
-            'Price' => $home['Price'],
-            'ImageFolder' => $home['ImageFolder'],
-            'ImageName' => $home['ImageName'], 
+            if(isset($_GET['check-availability'])){ 
+                $data = [];
+                $id = $_GET['id'];
+                $this->homeModel->id = $id;
+                $home = $this->homeModel->getById();
 
-            'totalCost' => '',
-            'Nights' => '',
+                $data = [ 
+                    'homeId' => $home['Id'],
+                    'Name' => $home['Name'],
+                    'Price' => $home['Price'],
+                    'ImageFolder' => $home['ImageFolder'],
+                    'ImageName' => $home['ImageName'],
+    
+                    'startDate' => $_POST['startDate'],
+                    'endDate' => $_POST['endDate'],
+                    'guests' => $_POST['guests'],
+    
+                    'errorFeedback' => '', 
+                    'reservationFeedback' => '',
+                    'availableHome' => false
+                ]; 
 
-            'startDateError' => '',
-            'endDateError' => '',
-            'guestsError' => '',
-            'reservationFeedback' => '',
-            'availableHome' => false
-        ]; 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW); //sanitize
-
-            $data = [ 
-                'homeId' => $id,
-                'homeId' => $home['Id'],
-                'Name' => $home['Name'],
-                'Price' => $home['Price'],
-                'ImageFolder' => $home['ImageFolder'],
-                'ImageName' => $home['ImageName'],
-
-                'startDate' => $_POST['startDate'],
-                'endDate' => $_POST['endDate'],
-                'guests' => $_POST['guests'],
-
-                'errorFeedback' => '', 
-                'reservationFeedback' => '',
-                'availableHome' => false
-            ]; 
-            if(isset($_POST['check-availability'])){ 
-                $startDate = $_POST['startDate'];
-                $endDate = $_POST['endDate'];
-                $guests = $_POST['guests'];
-
-                if(empty($startDate) | empty($endDate) | empty($guests)){
-                    $data['errorFeedback'] = 'Field must be filled';
-                } 
 
                 if(empty($data['startDateError']) && empty($data['endDateError']) && empty($data['guestsError'])){
                     $this->reservationsModel->userId = $_SESSION['user_id']; 
@@ -74,7 +48,7 @@ class ReservationsController extends Controller{
                     };
                 }
             }
-        }
+        
         $this->view('Home/singleHome', $data);  
     }
 
@@ -109,7 +83,7 @@ class ReservationsController extends Controller{
             $data = [
                 'Nights' =>  $reservation->calculateTotalNights(),
                 'totalCost' => $reservation->calculateCost()
-            ]
+            ];
 
             //check if errors and:
             $this->submitReservation($data);

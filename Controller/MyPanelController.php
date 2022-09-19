@@ -16,7 +16,6 @@ class MyPanelController extends Controller
         $this->isLoggedIn = new Session();
     }
 
-
     public function index(){
         if (!$this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');

@@ -13,6 +13,8 @@ class Image
         $this->img = $img;
         $this->name = $name;
 
+        $this->validateImage();
+
         $fileName = $img['name'];
         $fileTmpName = $img['tmp_name'];
         $fileSize = $img['size'];
@@ -20,14 +22,12 @@ class Image
         $fileType = $img['type'];
     }
 
+
     public function saveImage()
     { 
-        echo $this->img['error'];
-        if ($this->img['error'] === 0 ) {       
-            $newFileName = $this->uniqueImageName();
-
+        if ($this->img['error'] === 0 ) {
             $newDirectory = $this->createDirectory() . '/'; 
-            $filePath = $newDirectory  . $newFileName;
+            $filePath = $newDirectory  . $this->newFileName;
 
             move_uploaded_file($this->img['tmp_name'], $filePath);
         }else{
@@ -36,6 +36,17 @@ class Image
         }
     }
     
+    public function validateImage()
+    {
+        if ( $this->checkExtension() && $this->checkFileSize()) {
+            $imgExtension = $this->imgExtension;
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public function checkExtension()
     {
         $allowedFormats = ['jpg', 'jpge', 'png'];
@@ -63,22 +74,25 @@ class Image
 
     public function uniqueImageName() 
     {
-        if ( $this->checkExtension() && $this->checkFileSize()) {
-            $imgExtension = $this->imgExtension;
+
             $name = $this->name;
-            $newFileName = uniqid($name . '_') .'.'. $imgExtension;
+            $newFileName = uniqid($name . '_') .'.'. $this->imgExtension;
             $this->newFileName = $newFileName; 
 
-            return $newFileName;
-        }
+            return $this->newFileName;
+        
+    }
+
+    public function createImgFolderName()
+    {
+        $imgFolderName = preg_replace('/\s+/', '_', strtolower($this->name));
+        $this->imgFolderName = $imgFolderName;
+        return $this->imgFolderName;
     }
 
     public function createDirectory()
     { 
-        $imgFolderName = preg_replace('/\s+/', '_', strtolower($this->name));
-        $this->imgFolderName = $imgFolderName;
-
-        $folderPath = 'assets/img/homes/' . $imgFolderName;
+        $folderPath = 'assets/img/homes/' . $this->imgFolderName;
 
         if(file_exists($folderPath) || is_dir($folderPath)){ 
             return $folderPath;

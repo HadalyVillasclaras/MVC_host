@@ -30,7 +30,7 @@
             </p>
         </div>
         <div>  
-            <form class="booking-form" action="<?=BASE_URL . 'reservationcontroller/checkAvailability?id=' . $data['homeId']?>" method="POST">
+            <form class="booking-form" action="<?=BASE_URL . 'reservationcontroller/checkAvailability' ?>" method="GET">
                  <h3>Check availability </h3>
             
                 <label for="startDate"></label>
@@ -52,8 +52,6 @@
                 <span class='wrongMsg'>
                     <?=$data['reservationFeedback'];?>  
                 </span>
-
-                
 
 
                 <?php if($data['availableHome'] == true) :?>

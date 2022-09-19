@@ -59,9 +59,13 @@ class HomeController extends Controller
             ];
 
             $image = new Image($data['img'], $data['name']);
-            $image->saveImage();
-            $data['newImgName'] = $image->newFileName;
-            $data['imgFolderName'] = $image->imgFolderName;
+            if ($image) {
+                $data['newImgName'] = $image->uniqueImageName();
+                $data['imgFolderName'] = $image->createImgFolderName();
+            } else {
+                $errors['image'] = 'something went wrong with image';
+            }
+            
 
             $validations = new FormsValidation();
             $errors = $validations->validateHomeFields($data);
@@ -74,6 +78,8 @@ class HomeController extends Controller
                 $this->homeModel->price = $data['price']; 
 
                 if ($this->homeModel->addHome() == 1) {
+                    $image->saveImage();
+                    
                     $data['feedBack'] = "Your home has been added succesfully.";
                 } else {
                     $data['feedBack'] = "An error ocurred while submiting your home. Pleas, try again later.";
@@ -102,10 +108,9 @@ class HomeController extends Controller
                     'name' => trim($_POST['name']),
                     'city' => trim($_POST['city']),
                     'price' => trim($_POST['price']),
-                    'img' => $_FILES['image']
+                    'img' => $_FILES['image'],
+                    'feedBack' => ''
                 ];
-
-                $data['feedBack'] = '';
 
                 $image = new Image($data['img'], $data['name']);
                 $image->saveImage();

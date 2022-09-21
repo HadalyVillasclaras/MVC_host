@@ -1,77 +1,95 @@
 <?php
 
-class ReservationController extends Controller{ 
+class ReservationController extends Controller
+{
+    private $isLoggedIn;
+    
     public function __construct(){
         $this->reservationsModel = $this->model('Reservation');
         $this->homeModel = $this->model('Home');
+        $this->isLoggedIn = new Session();
     }
 
-    public function checkAvailability(){ 
-            if(isset($_GET['check-availability'])){ 
-                $data = [];
-                $id = $_GET['id'];
-                $this->homeModel->id = $id;
+    public function checkAvailability(){
+            $data = [];
+            $errors = [];
+        
+            if (isset($_POST['check-availability'])) {  
+                $this->homeModel->id = $_POST['id'];
                 $home = $this->homeModel->getById();
 
                 $data = [ 
-                    'homeId' => $home['Id'],
-                    'Name' => $home['Name'],
-                    'Price' => $home['Price'],
-                    'ImageFolder' => $home['ImageFolder'],
-                    'ImageName' => $home['ImageName'],
-    
-                    'startDate' => $_POST['startDate'],
-                    'endDate' => $_POST['endDate'],
-                    'guests' => $_POST['guests'],
-    
-                    'errorFeedback' => '', 
-                    'reservationFeedback' => '',
+                    'startDate' => $_POST['startDate'] ?? '',
+                    'endDate' => $_POST['endDate'] ?? '',
+                    'guests' => $_POST['guests'] ?? '',
+                    
                     'availableHome' => false
                 ]; 
+                
+                $error = [
+                    'errorFeedback' => '', 
+                    'reservationFeedback' => ''
+                ];
 
-
-                if(empty($data['startDateError']) && empty($data['endDateError']) && empty($data['guestsError'])){
-                    $this->reservationsModel->userId = $_SESSION['user_id']; 
-                    $this->reservationsModel->homeId = $_GET['id'];
-                    $this->reservationsModel->startDate = $data['startDate']; 
-                    $this->reservationsModel->endDate = $data['endDate']; 
-                    $this->reservationsModel->guests = $data['guests'] ; 
-
-                    if($this->reservationsModel->checkAvailability()){
-                        $data['reservationFeedback'] = 'Available dates.';
-                        $data = $this->calculateCost($data);
-                        
-                        $data['availableHome'] = true;
-
-                    }else{
-                        $data['reservationFeedback'] = 'Not available dates.';
-                    };
+                //Check empty values
+                if (empty($data['startDate'])) {
+                    $error['startDate'] = "Please, select a start date";   
                 }
+                
+                if (empty($data['endDate'])) {
+                    $error['endDate'] = "Please, select a end date";   
+                }
+                
+                if (empty($data['endDate'])) {
+                    $error['guests'] = "Please, select number of guests";   
+                }
+                
+
+                //if everything ok:
+                $this->reservationsModel->userId = $_SESSION['user_id']; 
+                $this->reservationsModel->homeId = $_GET['id'];
+                $this->reservationsModel->startDate = $data['startDate']; 
+                $this->reservationsModel->endDate = $data['endDate']; 
+                $this->reservationsModel->guests = $data['guests'] ; 
+
+                
+                $availability = $this->reservationsModel->checkAvailability();
+                
+                if ($availability) {
+                    $data['availableHome'] = true;
+                    $data['reservationFeedback'] = 'Available dates.';
+                    
+                    $cost = $this->calculateCost($data); //buscar método
+                    
+                }else{
+                    $data['reservationFeedback'] = 'Not available dates.';
+                };
+                
             }
         
-        $this->view('Home/singleHome', $data);  
+        $this->view('Home/singleHome', $data, $errors);  
     }
 
 
-    public function checkOut(){
-        $isLoggedIn = new Session();
-
+    public function checkOut()
+    {
         if (!$isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 
         if (isset($_GET['id'])) {
+            
             $this->homeModel->id = $_GET['id'];
             $home = $this->homeModel->getById();  
 
             $data = [
                 'UserId' => $_SESSION['user_id'],
                 'HomeId' => $_GET['id'],
-                'Name' => $home['Name'],
-                'City' => $home['City'],
-                'Price' => $home['Price'],
-                'ImageName' => $home['ImageName'],
-                'ImageFolder' => $home['ImageFolder'],
+                'Name' => $home['name'],
+                'City' => $home['city'],
+                'Price' => $home['price'],
+                'ImageName' => $home['imageName'],
+                'ImageFolder' => $home['imageFolder'],
                 'startDate' => $_GET['checkin'],
                 'endDate' => $_GET['checkout'],
                 'Guests' => $_GET['guests']

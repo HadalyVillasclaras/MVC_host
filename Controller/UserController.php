@@ -93,25 +93,20 @@ class UserController extends Controller
         $this->view('Users/login', $data = [], $errors = []);  
     }
 
-    public function logout(){
-        unset($_SESSION['email']);
-        unset($_SESSION['name']);
-        unset($_SESSION['user_id']);
+    public function logout()
+    {
+        $_SESSION = array();
         session_destroy();
+        
         header('location: ' . BASE_URL);
     }
 
-    public function createSession($user){ 
-        require_once '../lib/session.php';
+    public function createSession($user)
+    { 
         $_SESSION['email'] = $user['email'];
         $_SESSION['name'] = $user['first_name'];
         $_SESSION['user_id'] = $user['id']; 
 
-        echo "eeeeeeeeeeeeeeeeeeecreateSSession()";
         var_dump($_SESSION);
-        // header('location: ' . BASE_URL);
     }
-    
-
-
 }

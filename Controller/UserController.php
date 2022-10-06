@@ -1,4 +1,5 @@
 <?php
+
 require_once '../lib/session.php';
 require_once '../lib/Validations/Password.php';
 require_once '../lib/Validations/Email.php';
@@ -6,6 +7,9 @@ require_once '../lib/Validations/Email.php';
 class UserController extends Controller
 {
     private $isLoggedIn;
+    private $homeModel;
+    private $userModel;
+    private $reservationModel;
 
     public function __construct()
     {
@@ -15,8 +19,10 @@ class UserController extends Controller
         $this->isLoggedIn = new Session();
     }
     
-    public function register(){
+    public function register()
+    {
         $data = [];
+
         if (isset($_POST['register'])) {  
             $data = [
                 'name' => trim($_POST['name']),
@@ -40,7 +46,7 @@ class UserController extends Controller
             $errors['confirmPassword'] = $password->validateConfirmPassword($data['confirmPassword']);
 
             
-            if (count($errors) === 0) {
+            if (empty($errors)) {
                 $this->userModel->name = $data['name'];
                 $this->userModel->surname = $data['surname'];
                 $this->userModel->email = $data['email'];
@@ -56,18 +62,16 @@ class UserController extends Controller
         $this->view('Users/register', $data, $errors);  
     }
 
-
-
-
     public function login()
     {
-        //Si ya está loggeado, header location to my panel
+        if (!$this->isLoggedIn->isLoggedIn()) {
+            header("Location: " . BASE_URL . 'usercontroller/mypanelcontroller');
+        }
        
         if (isset($_POST['login'])) {
-
             $data = [
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password'])
+                'email' => $_POST['email'],
+                'password' => $_POST['password']
             ];
             
             // check if empty or null validation
@@ -75,9 +79,8 @@ class UserController extends Controller
             $errors = []; //save errors here if exists
 
 
-
             //Login
-            if (count($errors) === 0) {
+            if (empty($errors)) {
                 $this->userModel->email = $data['email'];
                 $this->userModel->password = $data['password'];
                 $loggedUser = $this->userModel->login();

@@ -2,12 +2,11 @@
 
 require_once("config.php");
 
-class Connection{
-    private $connection;
+class Connection
+{
+    private PDO $connection;
 
-
-
-    public function Connect()
+    public function Connect(): PDO
     { 
         try{
             $this->connection = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME.'', DB_USER, DB_PASS);

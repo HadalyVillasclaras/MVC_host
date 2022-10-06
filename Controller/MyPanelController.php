@@ -7,6 +7,9 @@ require_once '../lib/Validations/Email.php';
 class MyPanelController extends Controller
 {
     private $isLoggedIn;
+    private $userModel;
+    private $homeModel;
+    private $reservationModel;
 
     public function __construct()
     {
@@ -16,7 +19,8 @@ class MyPanelController extends Controller
         $this->isLoggedIn = new Session();
     }
 
-    public function index(){
+    public function index()
+    {
         if (!$this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
@@ -25,9 +29,9 @@ class MyPanelController extends Controller
         $this->userModel->id  = $userId; 
         $role = $this->userModel->checkRole();
 
-        $this->reservationModel->userId  =  $userId; 
+        $this->reservationModel->userId = $userId; 
 
-        if($role == 'Admin'){
+        if ($role == 'Admin') {
             $data['homes'] = $this->homeModel->getAll('Homes');   
             $data['reservations'] = $this->reservationModel->getAll('Reservations');   
             $data['userInfo'] = $this->userModel->getById();

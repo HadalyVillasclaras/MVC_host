@@ -73,7 +73,7 @@ class ReservationController extends Controller
 
     public function checkOut()
     {
-        if (!$isLoggedIn->isLoggedIn()) {
+        if (!$this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/login');
         }
 

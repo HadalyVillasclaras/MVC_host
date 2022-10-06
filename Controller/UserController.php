@@ -64,7 +64,7 @@ class UserController extends Controller
 
     public function login()
     {
-        if (!$this->isLoggedIn->isLoggedIn()) {
+        if ($this->isLoggedIn->isLoggedIn()) {
             header("Location: " . BASE_URL . 'usercontroller/mypanelcontroller');
         }
        
@@ -90,6 +90,8 @@ class UserController extends Controller
                 } else {
                     $data['feedback'] = 'Error login credentials.';
                 }
+
+                //if loggin - go to my panel
             }
         }
         

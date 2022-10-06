@@ -147,6 +147,8 @@ class HomeController extends Controller
                 } else {
                     $data['feedBack'] = "An error ocurred while deleting this home. Pleas, try again later.";
                 } 
+
+                //delete imgs and folder too
             } 
         }
         $this->view('Users/AdminPanel/DeleteConfirmationMsg', $homeToDelete);   

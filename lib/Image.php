@@ -23,7 +23,7 @@ class Image
     }
 
 
-    public function saveImage()
+    public function saveImageInFolder()
     { 
         if ($this->img['error'] === 0 ) {
             $newDirectory = $this->createDirectory() . '/'; 

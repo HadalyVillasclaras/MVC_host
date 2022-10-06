@@ -1,7 +1,9 @@
 <?php
 
-class FormsValidation {
-    function validateHomeFields($data){
+class FormsValidation 
+{
+    public static function validateHomeFields($data): array
+    {
         $errors = [];
 
         if (empty($data['name'])) {

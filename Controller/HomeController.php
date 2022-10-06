@@ -1,4 +1,5 @@
 <?php
+
 require_once '../lib/session.php';
 require_once '../lib/Image.php';
 require_once '../lib/Validations/formsValidation.php';
@@ -38,8 +39,9 @@ class HomeController extends Controller
             'errorFeedback' => '', 
             'reservationFeedback' => '',
             'availableHome' => false
-        ]; 
-        $this->view('Home/singleHome', $data);  
+        ];
+
+        $this->view('Home/singleHome', $data);
     }
 
     public function addHome()
@@ -50,6 +52,7 @@ class HomeController extends Controller
 
         $data = [];
         $errors = [];
+
         if (isset($_POST['submit'])) { 
             $data = [
                 'name' => trim($_POST['name']),
@@ -59,35 +62,25 @@ class HomeController extends Controller
             ];
 
             $image = new Image($data['img'], $data['name']);
-            if ($image) {
-                $data['newImgName'] = $image->uniqueImageName();
-                $data['imgFolderName'] = $image->createImgFolderName();
-            } else {
-                $errors['image'] = 'something went wrong with image';
-            }
-            
+            $errors = FormsValidation::validateHomeFields($data);
 
-            $validations = new FormsValidation();
-            $errors = $validations->validateHomeFields($data);
-
-            if (count($errors) === 0) {
-                $this->homeModel->img = $data['newImgName'];  
-                $this->homeModel->imgFolderName = $data['imgFolderName']; 
+            if (empty($errors)) {
+                $this->homeModel->img = $image->uniqueImageName();  
+                $this->homeModel->imgFolderName = $image->createImgFolderName();
                 $this->homeModel->name = $data['name'];
                 $this->homeModel->city = $data['city'];
                 $this->homeModel->price = $data['price']; 
 
-                if ($this->homeModel->addHome() == 1) {
-                    $image->saveImage();
-                    
-                    $data['feedBack'] = "Your home has been added succesfully.";
-                } else {
-                    $data['feedBack'] = "An error ocurred while submiting your home. Pleas, try again later.";
-                } 
-            }
+                $this->homeModel->addHome();
+                $image->saveImageInFolder();
+            } else {
+                echo 'error';
+            }  
         }
+
         $this->view('Users/AdminPanel/AddHomeForm', $data, $errors);
     }
+
 
     public function updateHome()
     { 
@@ -99,7 +92,8 @@ class HomeController extends Controller
         $myPanel = new MyPanelController();
         $myPanel->index();
 
-        if(isset($_GET['edit'])){
+        if (isset($_GET['edit'])) {
+
             $this->homeModel->id = $_GET['edit'];
             $data = $this->homeModel->getById();   
 
@@ -113,29 +107,22 @@ class HomeController extends Controller
                 ];
 
                 $image = new Image($data['img'], $data['name']);
-                $image->saveImage();
-                $data['newImgName'] = $image->newFileName;
-                $data['imgFolderName'] = $image->imgFolderName;
-
-                $validations = new FormsValidation();
-                $errors = $validations->validateHomeFields($data);
+                $errors = FormsValidation::validateHomeFields($data);
  
-                if (count($errors) === 0) {
-                    $this->homeModel->img = $data['newImgName'];  
-                    $this->homeModel->imgFolderName = $data['imgFolderName']; 
+                if (empty($errors)) {
+                    $this->homeModel->img = $image->newFileName;  
+                    $this->homeModel->imgFolderName = $image->imgFolderName; 
                     $this->homeModel->name = $data['name'];
                     $this->homeModel->city = $data['city'];
                     $this->homeModel->price = $data['price'];
 
-                    if ($this->homeModel->updateHome() == 1) {
-                        $data['feedBack'] = "Your home has been updated succesfully.";
-                    } else {
-                        $data['feedBack'] = "An error ocurred while updating your home. Pleas, try again later.";
-                    } 
+                    $this->homeModel->updateHome();
+                    $image->saveImageInFolder();
                 }else {
                     echo 'error';
                 }
-            } 
+            }
+
             $this->view('Users/AdminPanel/updateHomeForm', $data, $errors); 
         }
     }
